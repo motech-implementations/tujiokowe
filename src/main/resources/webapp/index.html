@@ -1,0 +1,28 @@
+<div ng-controller="TujiokoweBaseCtrl" id="inner-center" class="inner-center ui-layout-center ui-layout-pane ui-layout-pane-center">
+    <div class="header-footer-breadcrumb">
+        <ul class="breadcrumb" role="navigation">
+            <li><a role="menu" href=".">{{msg('server.home')}}</a></li>
+            <li><a role="menu" href="#/tujiokowe/">{{msg('tujiokowe')}}</a></li>
+            <li ng-show="active('#/mds/dataBrowser')" ng-class="active('#/mds/dataBrowser')">{{msg('tujiokowe.' + selectedTab)}}</li>
+            <li ng-show="active('#/tujiokowe/reschedule')" ng-class="active('#/tujiokowe/reschedule')">{{msg('tujiokowe.reschedule')}}</li>
+            <li ng-show="active('#/tujiokowe/enrollment')" ng-class="active('#/tujiokowe/enrollment')">{{msg('tujiokowe.enrollment.title')}}</li>
+            <li ng-show="active('#/tujiokowe/reports')" ng-class="active('#/tujiokowe/reports')">{{msg('tujiokowe.reports')}}</li>
+            <li ng-show="active('#/tujiokowe/settings')" ng-class="active('#/tujiokowe/settings')">{{msg('tujiokowe.settings.title')}}</li>
+        </ul>
+    </div>
+    <div class="header-footer" style="overflow:auto;">
+        <ul id="content-tabs" class="nav nav-tabs">
+            <li ng-hide="active('#/tujiokowe/settings')" ng-class="active('#/tujiokowe/' + tab) || active(tab === selectedTab ? '#/mds/dataBrowser' : ('#/tujiokowe/' + tab))" ng-repeat="tab in TUJIOKOWE_AVAILABLE_TABS">
+                <a id="{{tab + '-tab'}}" href="#/tujiokowe/{{tab}}">{{msg('tujiokowe.' + tab)}}</a>
+            </li>
+            <li ng-show="active('#/tujiokowe/settings')" ng-class="active('#/tujiokowe/settings')"><a href="#/tujiokowe/settings">{{msg('tujiokowe.settings.title')}}</a></li>
+        </ul>
+    </div>
+    <div class="ui-layout-content">
+        <div class="tab-content" id="tab-content">
+            <div id="main-content" class="active">
+                <div ng-view></div>
+            </div>
+        </div>
+    </div>
+</div>

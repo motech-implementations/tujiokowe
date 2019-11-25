@@ -1,0 +1,125 @@
+package org.motechproject.tujiokowe.helper;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.motechproject.ivr.service.OutboundCallService;
+import org.motechproject.tujiokowe.constants.TujiokoweConstants;
+import org.motechproject.tujiokowe.domain.Config;
+import org.motechproject.tujiokowe.domain.Subject;
+import org.motechproject.tujiokowe.domain.VotoMessage;
+import org.motechproject.tujiokowe.exception.TujiokoweInitiateCallException;
+import org.motechproject.tujiokowe.repository.VotoMessageDataService;
+import org.motechproject.tujiokowe.service.ConfigService;
+import org.motechproject.tujiokowe.service.SubjectService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class IvrCallHelper {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(IvrCallHelper.class);
+
+  @Autowired
+  private ConfigService configService;
+
+  @Autowired
+  private VotoMessageDataService votoMessageDataService;
+
+  @Autowired
+  private SubjectService subjectService;
+
+  private OutboundCallService outboundCallService;
+
+  public void initiateIvrCall(String messageKey, String externalId) {
+    Config config = configService.getConfig();
+
+    Subject subject = getSubject(externalId);
+
+    if (config.getSendIvrCalls() != null && config.getSendIvrCalls()
+        && StringUtils.isNotBlank(config.getIvrLanguageId())
+        && StringUtils.isNotBlank(subject.getPhoneNumber())) {
+
+      boolean hasHelpLine = StringUtils.isNotBlank(subject.getHelpLine());
+      String votoMessageId = getVotoMessageId(messageKey, hasHelpLine, externalId);
+
+      JsonObject subscriberData = new JsonObject();
+      subscriberData.addProperty(TujiokoweConstants.PREFERRED_LANGUAGE, config.getIvrLanguageId());
+      subscriberData.addProperty(TujiokoweConstants.RECEIVE_VOICE, "1");
+      subscriberData.addProperty(TujiokoweConstants.RECEIVE_SMS, "1");
+
+      JsonObject subscriberProperties = new JsonObject();
+
+      subscriberProperties.addProperty(TujiokoweConstants.SUBJECT_ID, subject.getSubjectId());
+      if (hasHelpLine) {
+        subscriberProperties.addProperty(TujiokoweConstants.HELP_LINE, subject.getHelpLine());
+      }
+
+      subscriberData.add(TujiokoweConstants.PROPERTY, subscriberProperties);
+
+      Gson gson = new GsonBuilder().serializeNulls().create();
+      String subscriber = gson.toJson(subscriberData);
+
+      Map<String, String> callParams = new HashMap<>();
+      if (StringUtils.isNotBlank(config.getVoiceSenderId())) {
+        callParams.put(TujiokoweConstants.VOICE_SENDER_ID, config.getVoiceSenderId());
+      }
+      if (StringUtils.isNotBlank(config.getSmsSenderId())) {
+        callParams.put(TujiokoweConstants.SMS_SENDER_ID, config.getSmsSenderId());
+      }
+      callParams.put(TujiokoweConstants.API_KEY, config.getApiKey());
+      callParams.put(TujiokoweConstants.MESSAGE_ID, votoMessageId);
+      callParams.put(TujiokoweConstants.SEND_TO_PHONES, subject.getPhoneNumber());
+      callParams.put(TujiokoweConstants.WEBHOOK_URL, config.getStatusCallbackUrl());
+      callParams.put(TujiokoweConstants.SUBSCRIBER_DATA, subscriber);
+      callParams.put(
+          TujiokoweConstants.SEND_SMS_IF_VOICE_FAILS, config.getSendSmsIfVoiceFails() ? "1" : "0");
+      callParams.put(
+          TujiokoweConstants.DETECT_VOICEMAIL, config.getDetectVoiceMail() ? "1" : "0");
+      callParams.put(TujiokoweConstants.RETRY_ATTEMPTS_SHORT, config.getRetryAttempts().toString());
+      callParams.put(TujiokoweConstants.RETRY_DELAY_SHORT, config.getRetryDelay().toString());
+      callParams.put(TujiokoweConstants.RETRY_ATTEMPTS_LONG,
+          TujiokoweConstants.RETRY_ATTEMPTS_LONG_DEFAULT);
+      callParams.put(TujiokoweConstants.SUBJECT_ID, externalId);
+      callParams.put(TujiokoweConstants.SUBJECT_PHONE_NUMBER, subject.getPhoneNumber());
+
+      LOGGER.info("Initiating call: {}", callParams.toString());
+
+      outboundCallService.initiateCall(config.getIvrSettingsName(), callParams);
+    }
+  }
+
+  private Subject getSubject(String subjectId) {
+    Subject subject = subjectService.findSubjectBySubjectId(subjectId);
+
+    if (subject == null) {
+      throw new TujiokoweInitiateCallException(
+          "Cannot initiate call, because Provider with id: %s not found", subjectId);
+    }
+
+    return subject;
+  }
+
+  private String getVotoMessageId(String messageKey, boolean hasHelpLine, String subjectId) {
+    VotoMessage votoMessage = votoMessageDataService
+        .findByMessageKey(messageKey + (hasHelpLine ? TujiokoweConstants.WITH_HELPLINE : ""));
+
+    if (votoMessage == null) {
+      throw new TujiokoweInitiateCallException(
+          "Cannot initiate call for Provider with id: %s, because Voto Message with key: %s not found",
+          subjectId, messageKey);
+    }
+
+    return votoMessage.getVotoIvrId();
+  }
+
+  @Autowired
+  public void setOutboundCallService(OutboundCallService outboundCallService) {
+    this.outboundCallService = outboundCallService;
+  }
+}

@@ -1,0 +1,176 @@
+[
+  {
+    "name": "Prime Vaccination",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Welcome message",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "welcome-message",
+        "timeOffset": "1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Post 1st Dose Reminder 1",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "post-1st-dose-reminder-1",
+        "timeOffset": "7 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Post 1st Dose Reminder 2",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "post-1st-dose-reminder-2",
+        "timeOffset": "25 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Ebola reminder",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "ebola-reminder",
+        "timeOffset": "72 Day",
+        "startTime": "7:30"
+      }
+    ]
+  },
+  {
+    "name": "Boost Vaccination",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Booster Reminder: 1 week",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "booster-reminder-1-week",
+        "timeOffset": "-7 Days",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Booster Reminder: 1 day",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "booster-reminder-1-day",
+        "timeOffset": "-1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Booster Reminder: today",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "booster-reminder-today",
+        "timeOffset": "0 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Missed Dose Reminder: 1 day",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "missed-dose-reminder-1-day",
+        "timeOffset": "1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Missed Dose Reminder: 2 days",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "missed-dose-reminder-2-days",
+        "timeOffset": "2 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Missed Dose Reminder: 1 week",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "missed-dose-reminder-1-week",
+        "timeOffset": "7 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Missed Dose: 1 week before end of window",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "missed-dose-1-week-before-end-of-window",
+        "timeOffset": "22 Day",
+        "startTime": "7:30"
+      }
+    ]
+  },
+  {
+    "name": "Campaign completed",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Campaign completed message",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "campaign-completed-message",
+        "timeOffset": "1 Day",
+        "startTime": "7:30"
+      }
+    ]
+  }
+]

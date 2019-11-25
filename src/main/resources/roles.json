@@ -1,0 +1,33 @@
+[
+  {
+    "roleName": "Tujiokowe Send Subject via API",
+    "permissionNames": [
+      "participantRegistration"
+    ]
+  },
+  {
+    "roleName": "Tujiokowe Administrator",
+    "permissionNames": [
+      "manageTujiokowe",
+      "tujiokoweSubjectsTab",
+      "tujiokoweEnrollmentsTab",
+      "tujiokoweManageEnrollments",
+      "tujiokoweReportsTab",
+      "tujiokoweImportSubjects",
+      "tujiokoweManageHolidays",
+      "viewUI"
+    ]
+  },
+  {
+    "roleName": "Tujiokowe User",
+    "permissionNames": [
+      "manageTujiokowe",
+      "tujiokoweSubjectsTab",
+      "tujiokoweEnrollmentsTab",
+      "tujiokoweManageEnrollments",
+      "tujiokoweReportsTab",
+      "viewUI"
+    ]
+  }
+]
+
