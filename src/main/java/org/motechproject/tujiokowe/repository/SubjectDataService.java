@@ -20,19 +20,19 @@ public interface SubjectDataService extends MotechDataService<Subject> {
   @Lookup(name = "Find unique By Participant Id")
   Subject findBySubjectId(@LookupField(name = "subjectId") String subjectId);
 
-  @Lookup(name = "Find By Prime Vaccination Date Range")
+  @Lookup(name = "Find By Actual Prime Date Range")
   List<Subject> findByPrimeVaccinationDateRange(@LookupField(name = "primeVaccinationDate")
       Range<LocalDate> dateRange);
 
-  @Lookup(name = "Find By Boost Vaccination Date Range")
+  @Lookup(name = "Find By Actual Booster Date Range")
   List<Subject> findByBoostVaccinationDateRange(@LookupField(name = "boostVaccinationDate")
       Range<LocalDate> dateRange);
 
-  @Lookup(name = "Find By Prime Vaccination Date")
+  @Lookup(name = "Find By Actual Prime Date")
   List<Subject> findByPrimeVaccinationDate(
       @LookupField(name = "primeVaccinationDate") LocalDate dateRange);
 
-  @Lookup(name = "Find By Boost Vaccination Date")
+  @Lookup(name = "Find By Actual Booster Date")
   List<Subject> findByBoostVaccinationDate(
       @LookupField(name = "boostVaccinationDate") LocalDate dateRange);
 

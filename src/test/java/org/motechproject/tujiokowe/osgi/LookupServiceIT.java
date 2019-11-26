@@ -91,9 +91,9 @@ public class LookupServiceIT extends BasePaxIT {
                 "{\"boostVaccinationDate\":\"2014-10-16\"}"
         };
         String []lookups = {
-                "Find By Prime Vaccination Date",
-                "Find By Boost Vaccination Date Range",
-                "Find By Boost Vaccination Date",
+                "Find By Actual Prime Date",
+                "Find By Actual Booster Date Range",
+                "Find By Actual Booster Date",
         };
         int []expectedResults = {1, 1, 1};
 
