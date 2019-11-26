@@ -92,12 +92,6 @@ public class VisitServiceImpl implements VisitService {
         visitDataService.update(visit);
       }
 
-      if (subject.getBoostVaccinationDate() != null) {
-        tujiokoweEnrollmentService.enrollOrReenrollCampaignCompletedCampaign(subject);
-      } else {
-        tujiokoweEnrollmentService.removeCampaignCompletedCampaign(subject.getSubjectId());
-      }
-
       tujiokoweEnrollmentService.enrollOrReenrollSubject(subject);
     }
   }
@@ -125,12 +119,6 @@ public class VisitServiceImpl implements VisitService {
 
           visitDataService.update(visit);
         }
-      }
-
-      if (subject.getBoostVaccinationDate() != null) {
-        tujiokoweEnrollmentService.enrollOrReenrollCampaignCompletedCampaign(subject);
-      } else {
-        tujiokoweEnrollmentService.removeCampaignCompletedCampaign(subject.getSubjectId());
       }
 
       tujiokoweEnrollmentService.enrollOrReenrollSubject(subject);

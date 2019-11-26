@@ -112,11 +112,6 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
       subject.setBoostVaccinationDate(dto.getActualDate());
       subjectDataService.update(subject);
 
-      if (subject.getBoostVaccinationDate() != null) {
-        tujiokoweEnrollmentService.enrollOrReenrollCampaignCompletedCampaign(subject);
-      } else {
-        tujiokoweEnrollmentService.removeCampaignCompletedCampaign(subject.getSubjectId());
-      }
       return visit;
     } else if (dto.getActualDate() != null) {
       tujiokoweEnrollmentService.completeCampaign(visit);

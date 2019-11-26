@@ -153,24 +153,5 @@
         "startTime": "7:30"
       }
     ]
-  },
-  {
-    "name": "Campaign completed",
-    "type": "OFFSET",
-    "messages": [
-      {
-        "name": "Campaign completed message",
-        "formats": [
-          "IVR",
-          "SMS"
-        ],
-        "languages": [
-          "en"
-        ],
-        "messageKey": "campaign-completed-message",
-        "timeOffset": "1 Day",
-        "startTime": "7:30"
-      }
-    ]
   }
 ]
