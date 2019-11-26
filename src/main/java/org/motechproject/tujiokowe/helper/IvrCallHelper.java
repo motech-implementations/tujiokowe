@@ -45,8 +45,7 @@ public class IvrCallHelper {
         && StringUtils.isNotBlank(config.getIvrLanguageId())
         && StringUtils.isNotBlank(subject.getPhoneNumber())) {
 
-      boolean hasHelpLine = StringUtils.isNotBlank(subject.getHelpLine());
-      String votoMessageId = getVotoMessageId(messageKey, hasHelpLine, externalId);
+      String votoMessageId = getVotoMessageId(messageKey, externalId);
 
       JsonObject subscriberData = new JsonObject();
       subscriberData.addProperty(TujiokoweConstants.PREFERRED_LANGUAGE, config.getIvrLanguageId());
@@ -54,11 +53,7 @@ public class IvrCallHelper {
       subscriberData.addProperty(TujiokoweConstants.RECEIVE_SMS, "1");
 
       JsonObject subscriberProperties = new JsonObject();
-
       subscriberProperties.addProperty(TujiokoweConstants.SUBJECT_ID, subject.getSubjectId());
-      if (hasHelpLine) {
-        subscriberProperties.addProperty(TujiokoweConstants.HELP_LINE, subject.getHelpLine());
-      }
 
       subscriberData.add(TujiokoweConstants.PROPERTY, subscriberProperties);
 
@@ -105,9 +100,8 @@ public class IvrCallHelper {
     return subject;
   }
 
-  private String getVotoMessageId(String messageKey, boolean hasHelpLine, String subjectId) {
-    VotoMessage votoMessage = votoMessageDataService
-        .findByMessageKey(messageKey + (hasHelpLine ? TujiokoweConstants.WITH_HELPLINE : ""));
+  private String getVotoMessageId(String messageKey, String subjectId) {
+    VotoMessage votoMessage = votoMessageDataService.findByMessageKey(messageKey);
 
     if (votoMessage == null) {
       throw new TujiokoweInitiateCallException(

@@ -53,11 +53,8 @@ public final class TujiokoweConstants {
   public static final String PROPERTY = "property";
   public static final String RECEIVE_VOICE = "receive_voice";
   public static final String RECEIVE_SMS = "receive_sms";
-  public static final String HELP_LINE = "help_line";
   public static final String VOICE_SENDER_ID = "voice_sender_id";
   public static final String SMS_SENDER_ID = "sms_sender_id";
-
-  public static final String WITH_HELPLINE = "-with-helpline";
 
   public static final String IVR_CALL_DETAIL_RECORD_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSSS";
   public static final String IVR_CALL_DETAIL_RECORD_MOTECH_TIMESTAMP_FIELD = "motechTimestamp";
