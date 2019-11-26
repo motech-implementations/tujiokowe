@@ -45,7 +45,6 @@ public class ConfigController {
     configService.updateConfig(config);
 
     tujiokoweScheduler.unscheduleDailyReportJob();
-    tujiokoweScheduler.unscheduleZetesImportJob();
     scheduleJobs();
 
     return configService.getConfig();
@@ -67,15 +66,6 @@ public class ConfigController {
         reportStartDate = reportStartDate.plusDays(1);
       }
       tujiokoweScheduler.scheduleDailyReportJob(reportStartDate);
-    }
-
-    if (configService.getConfig().getEnableZetesImportJob()) {
-      DateTime importStartDate = DateUtil.newDateTime(LocalDate.now(),
-          Time.parseTime(configService.getConfig().getZetesImportStartTime(), ":"));
-      if (importStartDate.isBeforeNow()) {
-        importStartDate = importStartDate.plusDays(1);
-      }
-      tujiokoweScheduler.scheduleZetesImportJob(importStartDate);
     }
   }
 }

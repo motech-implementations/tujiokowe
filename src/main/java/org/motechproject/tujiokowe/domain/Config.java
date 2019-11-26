@@ -10,34 +10,6 @@ public class Config {
 
   @Getter
   @Setter
-  private Boolean enableZetesImportJob = false;
-
-  @Getter
-  @Setter
-  private String zetesImportStartTime = TujiokoweConstants.ZETES_IMPORT_EVENT_START_TIME;
-
-  @Getter
-  @Setter
-  private String lastZetesImportDate;
-
-  @Getter
-  @Setter
-  private String zetesDbUrl;
-
-  @Getter
-  @Setter
-  private String zetesDbDriver;
-
-  @Getter
-  @Setter
-  private String zetesDbUsername;
-
-  @Getter
-  @Setter
-  private String zetesDbPassword;
-
-  @Getter
-  @Setter
   private Boolean enableReportJob = false;
 
   @Getter

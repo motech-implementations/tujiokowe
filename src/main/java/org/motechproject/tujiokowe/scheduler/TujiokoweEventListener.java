@@ -6,7 +6,6 @@ import org.motechproject.messagecampaign.EventKeys;
 import org.motechproject.tujiokowe.constants.TujiokoweConstants;
 import org.motechproject.tujiokowe.exception.TujiokoweInitiateCallException;
 import org.motechproject.tujiokowe.helper.IvrCallHelper;
-import org.motechproject.tujiokowe.helper.ZetesHelper;
 import org.motechproject.tujiokowe.service.ReportService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
 import org.slf4j.Logger;
@@ -28,21 +27,11 @@ public class TujiokoweEventListener {
   @Autowired
   private IvrCallHelper ivrCallHelper;
 
-  @Autowired
-  private ZetesHelper zetesHelper;
-
   @MotechListener(subjects = { TujiokoweConstants.DAILY_REPORT_EVENT })
   public void generateDailyReport(MotechEvent event) {
     LOGGER.info("Started generation of daily reports...");
     reportService.generateIvrAndSmsStatisticReports();
     LOGGER.info("Daily Reports generation completed");
-  }
-
-  @MotechListener(subjects = { TujiokoweConstants.ZETES_IMPORT_EVENT })
-  public void importZetesData(MotechEvent event) {
-    LOGGER.info("Started import of Zetes data...");
-    zetesHelper.fetchZetesData();
-    LOGGER.info("Zetes data import completed");
   }
 
   @MotechListener(subjects = EventKeys.CAMPAIGN_COMPLETED)

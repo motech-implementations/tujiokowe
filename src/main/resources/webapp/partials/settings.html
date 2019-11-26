@@ -13,52 +13,6 @@
 
         <form name="form" class="form-horizontal inside" novalidate>
 
-            <h5 class="margin-before2">{{msg('tujiokowe.settings.zetes')}}</h5>
-
-            <div class="form-group">
-                <label class="col-md-2 control-label">{{msg('tujiokowe.settings.zetes.enable')}}</label>
-                <div class="col-md-1">
-                    <input type="checkbox" class="form-control" id="zetesSettingsCheckBox" checked="unchecked" ng-model="config.enableZetesImportJob"/>
-                </div>
-            </div>
-
-            <div class="form-group" ng-show="config.enableZetesImportJob">
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="zetesImportStartTime">{{msg('tujiokowe.settings.zetes.startTime')}}</label>
-                    <div class="col-md-4">
-                        <input class="form-control" id="zetesImportStartTime" type="text" ng-model="config.zetesImportStartTime" time-picker ng-required="config.enableZetesImportJob">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="zetesDbUrl">{{msg('tujiokowe.settings.zetes.url')}}</label>
-                    <div class="col-md-4">
-                        <input class="form-control" id="zetesDbUrl" type="text" ng-model="config.zetesDbUrl" ng-required="config.enableZetesImportJob">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="zetesDbDriver">{{msg('tujiokowe.settings.zetes.driver')}}</label>
-                    <div class="col-md-4">
-                        <input class="form-control" id="zetesDbDriver" type="text" ng-model="config.zetesDbDriver" ng-required="config.enableZetesImportJob">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="zetesDbUsername">{{msg('tujiokowe.settings.zetes.username')}}</label>
-                    <div class="col-md-4">
-                        <input class="form-control" id="zetesDbUsername" type="text" ng-model="config.zetesDbUsername" ng-required="config.enableZetesImportJob">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="zetesDbPassword">{{msg('tujiokowe.settings.zetes.password')}}</label>
-                    <div class="col-md-4">
-                        <input class="form-control" id="zetesDbPassword" type="password" ng-model="config.zetesDbPassword" ng-required="config.enableZetesImportJob">
-                    </div>
-                </div>
-            </div>
-
             <h5 class="margin-before2">{{msg('tujiokowe.settings.report')}}</h5>
 
             <div class="form-group">
