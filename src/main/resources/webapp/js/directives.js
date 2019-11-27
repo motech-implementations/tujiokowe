@@ -296,6 +296,7 @@
                         scope.msg("tujiokowe.visitReschedule.visitType"),
                         scope.msg("tujiokowe.visitReschedule.actualDate"),
                         scope.msg("tujiokowe.visitReschedule.plannedDate"),
+                        scope.msg("tujiokowe.visitReschedule.siteId"),
                         ""],
                     colModel: [
                         {
@@ -316,6 +317,10 @@
                         {
                             name: "plannedDate",
                             index: 'dateProjected'
+                        },
+                        {
+                            name: "siteId",
+                            index: 'subject.siteId'
                         },
                         {
                             name: "print", align: "center", sortable: false, width: 60
@@ -690,7 +695,8 @@
             order: 'sortDirection'
           },
           colNames: ['rowId', scope.msg('tujiokowe.enrollment.subjectId'),
-              scope.msg('tujiokowe.enrollment.status'), scope.msg('tujiokowe.enrollment.action')],
+              scope.msg('tujiokowe.enrollment.status'), scope.msg('tujiokowe.enrollment.siteId'),
+              scope.msg('tujiokowe.enrollment.action')],
           colModel: [{
             name: 'rowId',
             index: 'rowId',
@@ -712,6 +718,18 @@
             index: 'status',
             classes: 'pointer',
             align: 'center'
+          }, {
+              name: 'siteId',
+              jsonmap: 'subject',
+              index: 'subject.siteId',
+              classes: 'pointer',
+              align: 'center',
+              formatter: function(cellValue, options, rowObject) {
+                  if (!cellValue || !cellValue.siteId){
+                      return '';
+                  }
+                  return cellValue.siteId;
+              }
           }, {
             name: 'action',
             jsonmap: 'status',

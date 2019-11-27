@@ -102,6 +102,7 @@ public final class TujiokoweConstants {
       put("Visit Type", "visitType");
       put("Actual Date", "actualDate");
       put("Planned Date", "plannedDate");
+      put("Site Id", "siteId");
     }
   };
 
@@ -111,6 +112,7 @@ public final class TujiokoweConstants {
       put("Participant ID", "subject.subjectId");
       put("Phone Number", "subject.phoneNumber");
       put("Visit type", "type");
+      put("Site Id", "subject.siteId");
     }
   };
 
@@ -120,6 +122,7 @@ public final class TujiokoweConstants {
       put("Visit type", "type");
       put("Planned Visit Date", "dateProjected");
       put("No Of Days Exceeded Visit", "noOfDaysExceededVisit");
+      put("Site Id", "subject.siteId");
     }
   };
 
@@ -130,6 +133,7 @@ public final class TujiokoweConstants {
       put("Visit type", "type");
       put("Planned Visit Date", "dateProjected");
       put("No Of Days Exceeded Visit", "noOfDaysExceededVisit");
+      put("Site Id", "subject.siteId");
     }
   };
 
@@ -137,6 +141,7 @@ public final class TujiokoweConstants {
     {
       put("Participant Id", "subject.subjectId");
       put("Date of Unenrollment", "dateOfUnenrollment");
+      put("Site Id", "subject.siteId");
     }
   };
 
@@ -154,6 +159,7 @@ public final class TujiokoweConstants {
       put("No. of Attempts", "numberOfAttempts");
       put("SMS", "sms");
       put("SMS Received Date", "smsReceivedDate");
+      put("Site Id", "subject.siteId");
     }
   };
 
@@ -161,43 +167,45 @@ public final class TujiokoweConstants {
     {
       put("Participant Id", "subject.subjectId");
       put("Status", "status");
+      put("Site Id", "subject.siteId");
     }
   };
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_SUBJECT_ENROLLMENTS =
-      new ArrayList<>(Arrays.asList("Find By Participant Id", "Find By Status"));
+      new ArrayList<>(Arrays.asList("Find By Participant Id", "Find By Status",
+          "Find By Participant Site Id"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_VISIT_RESCHEDULE = new ArrayList<>(
-      Arrays.asList(
-          "Find By Visit Planned Date",
-          "Find By Visit Actual Date",
-          "Find By Participant Id"));
+      Arrays.asList("Find By Visit Planned Date", "Find By Visit Actual Date",
+          "Find By Participant Id", "Find By Participant Site Id"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_DAILY_CLINIC_VISIT_SCHEDULE_REPORT =
       new ArrayList<>(Arrays.asList("Find By Planned Visit Date Range",
-          "Find By Planned Visit Date Range And Type", "Find By Type", "Find By Participant Id"));
+          "Find By Planned Visit Date Range And Type", "Find By Type",
+          "Find By Participant Id", "Find By Participant Site Id"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_FOLLOWUPS_MISSED_CLINIC_VISITS_REPORT =
-      new ArrayList<>(Arrays
-          .asList("Find By Planned Visit Date Range", "Find By Planned Visit Date Range And Type"));
+      new ArrayList<>(Arrays.asList("Find By Planned Visit Date Range",
+          "Find By Planned Visit Date Range And Type"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_M_AND_E_MISSED_CLINIC_VISITS_REPORT =
       new ArrayList<>(Arrays.asList("Find By Participant Id", "Find By Planned Visit Date Range",
-          "Find By Planned Visit Date Range And Type"));
+          "Find By Planned Visit Date Range And Type", "Find By Participant Site Id"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_OPTS_OUT_OF_MOTECH_MESSAGES_REPORT =
-      new ArrayList<>(Arrays.asList("Find By Participant Id", "Find By Date Of Unenrollment"));
+      new ArrayList<>(Arrays.asList("Find By Participant Id", "Find By Participant Site Id",
+          "Find By Date Of Unenrollment"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_IVR_AND_SMS_STATISTIC_REPORT =
       new ArrayList<>(Arrays.asList("Find By Participant Id", "Find By Participant Phone Number",
-          "Find By Sent Date", "Find By Received Date", "Find By SMS Status",
-          "Find By SMS Status And Sent Date", "Find By Message Id And Sent Date"));
+          "Find By Participant Site Id", "Find By Sent Date", "Find By Received Date",
+          "Find By SMS Status", "Find By SMS Status And Sent Date",
+          "Find By Message Id And Sent Date"));
 
   public static final List<String> AVAILABLE_LOOKUPS_FOR_SUBJECTS =
-      new ArrayList<>(Arrays
-          .asList("Find By Actual Prime Date Range", "Find By Actual Booster Date Range",
-              "Find By Participant Id", "Find By exact Phone Number",
-              "Find By Visit Type And Actual Date Range"));
+      new ArrayList<>(Arrays.asList("Find By Actual Prime Date Range",
+          "Find By Actual Booster Date Range", "Find By Participant Id", "Find By Site Id",
+          "Find By exact Phone Number", "Find By Visit Type And Actual Date Range"));
 
   private TujiokoweConstants() {
   }

@@ -23,6 +23,10 @@ public class VisitRescheduleDto {
   @Setter
   private String participantId;
 
+  @Getter
+  @Setter
+  private String siteId;
+
   @JsonSerialize(using = CustomVisitTypeSerializer.class)
   @JsonDeserialize(using = CustomVisitTypeDeserializer.class)
   @Getter
@@ -67,6 +71,7 @@ public class VisitRescheduleDto {
 
   public VisitRescheduleDto(Visit visit) {
     setParticipantId(visit.getSubject().getSubjectId());
+    setSiteId(visit.getSubject().getSiteId());
     setVisitType(visit.getType());
     setActualDate(visit.getDate());
     setPlannedDate(visit.getDateProjected());

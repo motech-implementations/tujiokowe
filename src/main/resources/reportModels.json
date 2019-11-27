@@ -4,7 +4,8 @@
       "tujiokowe.reports.dailyClinicVisitScheduleReport.visitPlannedDate",
       "tujiokowe.reports.dailyClinicVisitScheduleReport.subjectId",
       "tujiokowe.reports.dailyClinicVisitScheduleReport.subjectPhoneNumber",
-      "tujiokowe.reports.dailyClinicVisitScheduleReport.visitType"],
+      "tujiokowe.reports.dailyClinicVisitScheduleReport.visitType",
+      "tujiokowe.reports.dailyClinicVisitScheduleReport.siteId"],
     "colModel": [{
       "name": "rowId",
       "index": "rowId",
@@ -31,6 +32,12 @@
       "name": "type",
       "index": "type",
       "align": "center"
+    }, {
+      "name": "subjectSiteId",
+      "jsonmap": "subject",
+      "index": "subject.siteId",
+      "align": "center",
+      "formatter": "function(cellValue, options, rowObject) { if (!cellValue || !cellValue.siteId){ return ''; } return cellValue.siteId; }"
     }]
   },
     "followupsMissedClinicVisitsReport" : {
@@ -38,7 +45,8 @@
       "tujiokowe.reports.followupsMissedClinicVisitsReport.subjectId",
       "tujiokowe.reports.followupsMissedClinicVisitsReport.visitType",
       "tujiokowe.reports.followupsMissedClinicVisitsReport.planedVisitDate",
-      "tujiokowe.reports.followupsMissedClinicVisitsReport.noOfDaysExceededVisit"],
+      "tujiokowe.reports.followupsMissedClinicVisitsReport.noOfDaysExceededVisit",
+      "tujiokowe.reports.followupsMissedClinicVisitsReport.siteId"],
     "colModel": [{
       "name": "rowId",
       "index": "rowId",
@@ -63,6 +71,12 @@
       "name": "noOfDaysExceededVisit",
       "index": "noOfDaysExceededVisit",
       "align": "center"
+    }, {
+      "name": "subjectSiteId",
+      "jsonmap": "subject",
+      "index": "subject.siteId",
+      "align": "center",
+      "formatter": "function(cellValue, options, rowObject) { if (!cellValue || !cellValue.siteId){ return ''; } return cellValue.siteId; }"
     }]
   },
   "MandEMissedClinicVisitsReport" : {
@@ -71,7 +85,8 @@
       "tujiokowe.reports.MandEMissedClinicVisitsReport.phoneNumber",
       "tujiokowe.reports.MandEMissedClinicVisitsReport.visitType",
       "tujiokowe.reports.MandEMissedClinicVisitsReport.planedVisitDate",
-      "tujiokowe.reports.MandEMissedClinicVisitsReport.noOfDaysExceededVisit"],
+      "tujiokowe.reports.MandEMissedClinicVisitsReport.noOfDaysExceededVisit",
+      "tujiokowe.reports.MandEMissedClinicVisitsReport.siteId"],
     "colModel": [{
       "name": "rowId",
       "index": "rowId",
@@ -102,12 +117,19 @@
       "name": "noOfDaysExceededVisit",
       "index": "noOfDaysExceededVisit",
       "align": "center"
+    }, {
+      "name": "subjectSiteId",
+      "jsonmap": "subject",
+      "index": "subject.siteId",
+      "align": "center",
+      "formatter": "function(cellValue, options, rowObject) { if (!cellValue || !cellValue.siteId){ return ''; } return cellValue.siteId; }"
     }]
   },
   "optsOutOfMotechMessagesReport" : {
     "colNames": ["tujiokowe.reports.rowId",
       "tujiokowe.reports.optsOutOfMotechMessagesReport.subjectId",
-      "tujiokowe.reports.optsOutOfMotechMessagesReport.dateOfUnenrollment"],
+      "tujiokowe.reports.optsOutOfMotechMessagesReport.dateOfUnenrollment",
+      "tujiokowe.reports.optsOutOfMotechMessagesReport.siteId"],
     "colModel": [{
       "name": "rowId",
       "index": "rowId",
@@ -124,6 +146,12 @@
       "index": "dateOfUnenrollment",
       "align": "center",
       "formatter":"dateOfUnenrollment", "formatoptions": {"srcformat": "Y-m-d", "newformat":"Y-m-d"}
+    }, {
+      "name": "subjectSiteId",
+      "jsonmap": "subject",
+      "index": "subject.siteId",
+      "align": "center",
+      "formatter": "function(cellValue, options, rowObject) { if (!cellValue || !cellValue.siteId){ return ''; } return cellValue.siteId; }"
     }]
   },
   "ivrAndSmsStatisticReport" : {
@@ -138,7 +166,8 @@
       "tujiokowe.reports.IvrAndSmsStatisticReport.receivedDate",
       "tujiokowe.reports.IvrAndSmsStatisticReport.noOfAttempts",
       "tujiokowe.reports.IvrAndSmsStatisticReport.sms",
-      "tujiokowe.reports.IvrAndSmsStatisticReport.smsReceivedDate"],
+      "tujiokowe.reports.IvrAndSmsStatisticReport.smsReceivedDate",
+      "tujiokowe.reports.IvrAndSmsStatisticReport.siteId"],
     "colModel": [{
       "name": "rowId",
       "index": "rowId",
@@ -192,6 +221,12 @@
       "name": "smsReceivedDate",
       "index": "smsReceivedDate",
       "align": "center"
+    }, {
+      "name": "subjectSiteId",
+      "jsonmap": "subject",
+      "index": "subject.siteId",
+      "align": "center",
+      "formatter": "function(cellValue, options, rowObject) { if (!cellValue || !cellValue.siteId){ return ''; } return cellValue.siteId; }"
     }]
   }
 }

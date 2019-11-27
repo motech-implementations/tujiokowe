@@ -20,6 +20,11 @@ public interface SubjectEnrollmentsDataService extends MotechDataService<Subject
       @LookupField(name = "subject.subjectId",
           customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String subjectId);
 
+  @Lookup(name = "Find By Participant Site Id")
+  List<SubjectEnrollments> findBySubjectSiteId(
+      @LookupField(name = "subject.siteId",
+          customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId);
+
   @Lookup(name = "Find By Participant Name")
   List<SubjectEnrollments> findBySubjectName(@LookupField(name = "subject.name",
       customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String name);
@@ -34,6 +39,12 @@ public interface SubjectEnrollmentsDataService extends MotechDataService<Subject
   @Lookup(name = "Find By Participant Id And Status")
   List<SubjectEnrollments> findBySubjectIdAndStatus(@LookupField(name = "subject.subjectId",
       customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String subjectId,
+      @LookupField(name = "status") EnrollmentStatus status);
+
+  @Lookup(name = "Find By Participant Site Id And Status")
+  List<SubjectEnrollments> findBySubjectSiteIdAndStatus(
+      @LookupField(name = "subject.siteId",
+          customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId,
       @LookupField(name = "status") EnrollmentStatus status);
 
   @Lookup

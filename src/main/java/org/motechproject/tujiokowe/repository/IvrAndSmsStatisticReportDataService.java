@@ -23,6 +23,10 @@ public interface IvrAndSmsStatisticReportDataService extends
       @LookupField(name = "subject.phoneNumber",
           customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String phoneNumber);
 
+  @Lookup(name = "Find By Participant Site Id")
+  List<IvrAndSmsStatisticReport> findBySubjectSiteId(@LookupField(name = "subject.siteId",
+      customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId);
+
   @Lookup
   List<IvrAndSmsStatisticReport> findBySentDate(
       @LookupField(name = "sendDate") Range<DateTime> sendDate);

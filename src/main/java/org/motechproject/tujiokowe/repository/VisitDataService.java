@@ -37,6 +37,10 @@ public interface VisitDataService extends MotechDataService<Visit> {
       customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String subjectId);
 
   @Lookup
+  List<Visit> findByParticipantSiteId(@LookupField(name = "subject.siteId",
+      customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId);
+
+  @Lookup
   List<Visit> findByType(@LookupField(name = "type") VisitType type);
 
   @Lookup
@@ -107,6 +111,13 @@ public interface VisitDataService extends MotechDataService<Visit> {
       @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
 
   @Lookup
+  List<Visit> findByParticipantSiteIdAndVisitTypeSetAndPlannedDateRange(
+      @LookupField(name = "subject.siteId",
+          customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId,
+      @LookupField(name = "type") Set<VisitType> typeSet,
+      @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
+
+  @Lookup
   List<Visit> findByVisitTypeAndPlannedDate(
       @LookupField(name = "type") VisitType type,
       @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
@@ -142,6 +153,12 @@ public interface VisitDataService extends MotechDataService<Visit> {
   List<Visit> findByParticipantIdAndVisitTypeSet(
       @LookupField(name = "subject.subjectId",
           customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String subjectId,
+      @LookupField(name = "type") Set<VisitType> typeSet);
+
+  @Lookup
+  List<Visit> findByParticipantSiteIdAndVisitTypeSet(
+      @LookupField(name = "subject.siteId",
+          customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId,
       @LookupField(name = "type") Set<VisitType> typeSet);
 
   /**
@@ -192,6 +209,12 @@ public interface VisitDataService extends MotechDataService<Visit> {
   @Lookup(name = "Find By Participant Id And Planned Visit Date And Actual Visit Date")
   List<Visit> findBySubjectIdAndPlannedVisitDateAndActualVisitDate(
       @LookupField(name = "subject.subjectId", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String subjectId,
+      @LookupField(name = "dateProjected", customOperator = Constants.Operators.LT) LocalDate dateProjected,
+      @LookupField(name = "date", customOperator = Constants.Operators.EQ) LocalDate date);
+
+  @Lookup(name = "Find By Participant Site Id And Planned Visit Date And Actual Visit Date")
+  List<Visit> findBySubjectSiteIdAndPlannedVisitDateAndActualVisitDate(
+      @LookupField(name = "subject.siteId", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteId,
       @LookupField(name = "dateProjected", customOperator = Constants.Operators.LT) LocalDate dateProjected,
       @LookupField(name = "date", customOperator = Constants.Operators.EQ) LocalDate date);
 
