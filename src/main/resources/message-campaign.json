@@ -17,7 +17,7 @@
         "startTime": "7:30"
       },
       {
-        "name": "Post 1st Dose Reminder 1",
+        "name": "Post 1st Dose",
         "formats": [
           "IVR",
           "SMS"
@@ -25,21 +25,8 @@
         "languages": [
           "en"
         ],
-        "messageKey": "post-1st-dose-reminder-1",
+        "messageKey": "post-1st-dose",
         "timeOffset": "7 Day",
-        "startTime": "7:30"
-      },
-      {
-        "name": "Post 1st Dose Reminder 2",
-        "formats": [
-          "IVR",
-          "SMS"
-        ],
-        "languages": [
-          "en"
-        ],
-        "messageKey": "post-1st-dose-reminder-2",
-        "timeOffset": "25 Day",
         "startTime": "7:30"
       },
       {
@@ -52,7 +39,7 @@
           "en"
         ],
         "messageKey": "ebola-reminder",
-        "timeOffset": "72 Day",
+        "timeOffset": "25 Day",
         "startTime": "7:30"
       }
     ]
@@ -101,32 +88,6 @@
         "startTime": "7:30"
       },
       {
-        "name": "Missed Dose Reminder: 1 day",
-        "formats": [
-          "IVR",
-          "SMS"
-        ],
-        "languages": [
-          "en"
-        ],
-        "messageKey": "missed-dose-reminder-1-day",
-        "timeOffset": "1 Day",
-        "startTime": "7:30"
-      },
-      {
-        "name": "Missed Dose Reminder: 2 days",
-        "formats": [
-          "IVR",
-          "SMS"
-        ],
-        "languages": [
-          "en"
-        ],
-        "messageKey": "missed-dose-reminder-2-days",
-        "timeOffset": "2 Day",
-        "startTime": "7:30"
-      },
-      {
         "name": "Missed Dose Reminder: 1 week",
         "formats": [
           "IVR",
@@ -137,6 +98,19 @@
         ],
         "messageKey": "missed-dose-reminder-1-week",
         "timeOffset": "7 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Missed Dose Reminder: 2 weeks",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "missed-dose-reminder-2-weeks",
+        "timeOffset": "14 Day",
         "startTime": "7:30"
       },
       {
