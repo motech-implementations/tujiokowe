@@ -19,7 +19,7 @@ import org.motechproject.tujiokowe.util.serializer.CustomDateSerializer;
 import org.motechproject.tujiokowe.util.serializer.CustomEnrollmentStatusSerializer;
 import org.motechproject.tujiokowe.util.serializer.CustomSubjectSerializer;
 
-@Entity(name = "ParticipantEnrollments", nonEditable = true, maxFetchDepth = 2)
+@Entity(recordHistory = true, name = "ParticipantEnrollments", nonEditable = true, maxFetchDepth = 2)
 @NoArgsConstructor
 public class SubjectEnrollments {
 
@@ -82,5 +82,10 @@ public class SubjectEnrollments {
   @Ignore
   public void removeEnrolment(Enrollment enrollment) {
     enrollments.remove(enrollment);
+  }
+
+  @Override
+  public String toString() {
+    return status.getValue();
   }
 }

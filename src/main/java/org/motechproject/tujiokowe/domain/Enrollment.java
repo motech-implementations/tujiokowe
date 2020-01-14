@@ -17,7 +17,7 @@ import org.motechproject.tujiokowe.util.serializer.CustomDateDeserializer;
 import org.motechproject.tujiokowe.util.serializer.CustomDateSerializer;
 import org.motechproject.tujiokowe.util.serializer.CustomEnrollmentStatusSerializer;
 
-@Entity(nonEditable = true, maxFetchDepth = 1)
+@Entity(recordHistory = true, nonEditable = true, maxFetchDepth = 1)
 @Unique(name = "externalIdAndCampaignName", members = { "externalId", "campaignName" })
 @NoArgsConstructor
 public class Enrollment {

@@ -361,7 +361,7 @@
                         rowsToColor = [];
                     },
                     onCellSelect: function(rowId, iCol, cellContent, e) {
-                        if (iCol !== 4) {
+                        if (iCol !== 5) {
                             var rowData = elem.getRowData(rowId),
                                 extraRowData = gridDataExtension[rowId];
 
@@ -749,7 +749,7 @@
             }
           }],
           onCellSelect: function (id, iCol, cellContent, e) {
-            if (iCol !== 3) {
+            if (iCol !== 4) {
               var rowValue = elem.jqGrid('getRowData', id);
               scope.goToAdvanced(rowValue.subject);
             }

@@ -12,7 +12,7 @@ import org.motechproject.mds.util.SecurityMode;
 import org.motechproject.tujiokowe.domain.enums.SmsStatus;
 
 @Access(value = SecurityMode.PERMISSIONS, members = { "manageTujiokowe" })
-@Entity(nonEditable = true)
+@Entity(nonEditable = true, maxFetchDepth = 3)
 @Unique(name = "providerCallIdAndSubject", members = { "providerCallId", "subject" })
 public class IvrAndSmsStatisticReport {
 
