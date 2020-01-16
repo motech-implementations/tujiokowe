@@ -96,7 +96,7 @@ public class TujiokoweEnrollmentController {
   }
 
   @PreAuthorize(TujiokoweConstants.HAS_MANAGE_ENROLLMENTS_ROLE)
-  @RequestMapping(value = "/getEnrollmentAdvanced/{subjectId}", method = RequestMethod.POST)
+  @RequestMapping(value = "/getEnrollmentAdvanced/{subjectId:.+}", method = RequestMethod.POST)
   @ResponseBody
   public Records<?> getEnrollmentAdvanced(@PathVariable String subjectId, GridSettings settings) {
     Order order = null;
