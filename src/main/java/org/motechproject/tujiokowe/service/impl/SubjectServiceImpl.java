@@ -1,9 +1,11 @@
 package org.motechproject.tujiokowe.service.impl;
 
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.motechproject.tujiokowe.domain.Subject;
 import org.motechproject.tujiokowe.repository.SubjectDataService;
 import org.motechproject.tujiokowe.service.SubjectService;
+import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
 import org.motechproject.tujiokowe.service.VisitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,9 @@ public class SubjectServiceImpl implements SubjectService {
 
   @Autowired
   private VisitService visitService;
+
+  @Autowired
+  private TujiokoweEnrollmentService tujiokoweEnrollmentService;
 
   @Override
   public Subject findSubjectBySubjectId(String subjectId) {
@@ -76,6 +81,17 @@ public class SubjectServiceImpl implements SubjectService {
         subject.setPrimeVaccinationDate(newSubject.getPrimeVaccinationDate());
         subject.setBoostVaccinationDate(newSubject.getBoostVaccinationDate());
         visitService.recalculateBoostRelatedVisitsPlannedDates(subject);
+      }
+
+      if ((StringUtils.isBlank(oldSubject.getPhoneNumber()))
+          && StringUtils.isNotBlank(newSubject.getPhoneNumber())) {
+        subject.setPrimeVaccinationDate(newSubject.getPrimeVaccinationDate());
+        subject.setBoostVaccinationDate(newSubject.getBoostVaccinationDate());
+
+        tujiokoweEnrollmentService.enrollOrReenrollSubject(subject);
+      } else if (StringUtils.isNotBlank(oldSubject.getPhoneNumber())
+          && StringUtils.isBlank(newSubject.getPhoneNumber())) {
+        tujiokoweEnrollmentService.unenrollAndRemoveEnrollment(subject);
       }
     }
   }

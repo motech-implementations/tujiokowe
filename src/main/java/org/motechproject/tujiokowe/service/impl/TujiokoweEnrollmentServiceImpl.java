@@ -1,6 +1,7 @@
 package org.motechproject.tujiokowe.service.impl;
 
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.model.Time;
 import org.motechproject.messagecampaign.exception.CampaignNotFoundException;
@@ -148,6 +149,11 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   @Override
   public void createEnrollmentOrReenrollCampaign(Visit visit, boolean rollbackCompleted) {
     Subject subject = visit.getSubject();
+
+    if (requiredDataMissing(subject)) {
+      return;
+    }
+
     SubjectEnrollments subjectEnrollments = subjectEnrollmentsDataService
         .findBySubjectId(subject.getSubjectId());
 
@@ -192,6 +198,26 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   public void unenrollAndRemoveEnrollment(Visit visit) {
     unenrollAndRemoveEnrollment(visit.getSubject().getSubjectId(),
         visit.getType().getDisplayValue());
+  }
+
+  @Override
+  public void unenrollAndRemoveEnrollment(Subject subject) {
+    SubjectEnrollments subjectEnrollments = subjectEnrollmentsDataService.findBySubjectId(subject.getSubjectId());
+
+    if (subjectEnrollments != null) {
+      try {
+        for (Enrollment enrollment : subjectEnrollments.getEnrollments()) {
+          if (EnrollmentStatus.ENROLLED.equals(enrollment.getStatus())) {
+            unscheduleJobsForEnrollment(enrollment);
+          }
+          enrollmentDataService.delete(enrollment);
+        }
+
+        subjectEnrollmentsDataService.delete(subjectEnrollments);
+      } catch (TujiokoweEnrollmentException e) {
+        LOGGER.debug(e.getMessage(), e);
+      }
+    }
   }
 
   private void reenrollSubjectWithNewDate(String subjectId, String campaignName, LocalDate date) {
@@ -283,6 +309,10 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
       throw new TujiokoweEnrollmentException(
           "Cannot enroll Participant with id: %s to Campaign with name: %s, because reference date is empty",
           subject.getSubjectId(), campaignName);
+    }
+
+    if (requiredDataMissing(subject)) {
+      return;
     }
 
     SubjectEnrollments subjectEnrollments = subjectEnrollmentsDataService
@@ -451,6 +481,10 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
           "Cannot enroll Participant, because no unenrolled Participant exist with id: %s",
           subjectId);
     }
+  }
+
+  private boolean requiredDataMissing(Subject subject) {
+    return StringUtils.isBlank(subject.getPhoneNumber());
   }
 
   @Autowired
