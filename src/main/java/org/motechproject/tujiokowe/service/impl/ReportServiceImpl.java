@@ -163,6 +163,7 @@ public class ReportServiceImpl implements ReportService {
     double messagePercentListened = 0;
 
     String smsDeliveryLogId = null;
+    String callDeliveryLogId = null;
     CallDetailRecord callRecord = null;
     CallDetailRecord smsRecord = null;
 
@@ -174,12 +175,11 @@ public class ReportServiceImpl implements ReportService {
       if (callDetailRecord.getCallStatus()
           .contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_SUBMITTED)) {
         sms = true;
-        smsDeliveryLogId = callDetailRecord.getProviderExtraData()
-            .get(TujiokoweConstants.IVR_DELIVERY_LOG_ID);
-      } else if (callDetailRecord.getCallStatus()
-          .contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_FINISHED)
-          || callDetailRecord.getCallStatus()
-          .contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_FAILED)) {
+        smsDeliveryLogId = callDetailRecord.getProviderExtraData().get(TujiokoweConstants.IVR_DELIVERY_LOG_ID);
+      } else if (callDetailRecord.getCallStatus().contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_IN_PROGRESS)) {
+        callDeliveryLogId = callDetailRecord.getProviderExtraData().get(TujiokoweConstants.IVR_DELIVERY_LOG_ID);
+      } else if (callDetailRecord.getCallStatus().contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_FINISHED)
+          || callDetailRecord.getCallStatus().contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_FAILED)) {
         endRecords.add(callDetailRecord);
       }
     }
@@ -205,17 +205,27 @@ public class ReportServiceImpl implements ReportService {
           callRecord = callDetailRecord;
         }
       }
+    } else if (StringUtils.isNotBlank(callDeliveryLogId)) {
+      for (CallDetailRecord callDetailRecord : endRecords) {
+        if (callDeliveryLogId.equals(callDetailRecord.getProviderExtraData().get(TujiokoweConstants.IVR_DELIVERY_LOG_ID))) {
+          callRecord = callDetailRecord;
+        } else {
+          smsRecord = callDetailRecord;
+        }
+      }
     } else if (endRecords.size() < 2) {
       callRecord = endRecords.get(0);
     } else {
-      LOGGER.warn(
-          "SMS was not send for Call Detail Record with Provider Call Id: {} for Providers with Ids {}",
-          providerCallId, subjectId);
+      for (CallDetailRecord callDetailRecord : endRecords) {
+        if (StringUtils.isNotBlank(callDetailRecord.getCallDuration())
+            || StringUtils.isNotBlank(callDetailRecord.getMessagePercentListened())
+            || StringUtils.isNotBlank(callDetailRecord.getProviderExtraData().get(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_HANGUP_REASON))) {
+          callRecord = callDetailRecord;
+        }
+      }
 
       for (CallDetailRecord callDetailRecord : endRecords) {
-        if (callDetailRecord.getCallStatus()
-            .contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_FAILED)
-            && smsRecord == null) {
+        if (callRecord != null && callDetailRecord != callRecord) {
           smsRecord = callDetailRecord;
         } else {
           callRecord = callDetailRecord;
@@ -224,6 +234,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     if (smsRecord != null) {
+      sms = true;
+
       if (smsRecord.getCallStatus()
           .contains(TujiokoweConstants.IVR_CALL_DETAIL_RECORD_STATUS_FAILED)) {
         smsFailed = true;
