@@ -45,6 +45,7 @@ public class ConfigController {
     configService.updateConfig(config);
 
     tujiokoweScheduler.unscheduleDailyReportJob();
+    tujiokoweScheduler.unscheduleFetchCsvJob();
     scheduleJobs();
 
     return configService.getConfig();
@@ -66,6 +67,15 @@ public class ConfigController {
         reportStartDate = reportStartDate.plusDays(1);
       }
       tujiokoweScheduler.scheduleDailyReportJob(reportStartDate);
+    }
+
+    if (configService.getConfig().getFetchCsvData()) {
+      DateTime fetchCsvStartDate = DateUtil.newDateTime(LocalDate.now(),
+          Time.parseTime(configService.getConfig().getFetchCsvDataStartTime(), ":"));
+      if (fetchCsvStartDate.isBeforeNow()) {
+        fetchCsvStartDate = fetchCsvStartDate.plusDays(1);
+      }
+      tujiokoweScheduler.scheduleFetchCsvJob(fetchCsvStartDate);
     }
   }
 }

@@ -58,6 +58,8 @@
 
     <osgi:service ref="visitService" interface="org.motechproject.tujiokowe.service.VisitService" />
 
+    <osgi:service ref="tujiokoweImportService" interface="org.motechproject.tujiokowe.service.TujiokoweImportService" />
+
     <osgi:reference id="entityService" interface="org.motechproject.mds.service.EntityService"/>
 
     <osgi:reference id="mdsLookupServiceImpl" interface="org.motechproject.mds.service.MDSLookupService" />

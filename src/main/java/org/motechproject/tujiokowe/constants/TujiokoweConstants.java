@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -31,6 +32,12 @@ public final class TujiokoweConstants {
   public static final String DAILY_REPORT_EVENT = "daily_report_event";
   public static final String DAILY_REPORT_EVENT_START_DATE = "daily_report_event_start_date";
   public static final String DAILY_REPORT_EVENT_START_HOUR = "00:01";
+
+  public static final String FETCH_CSV_EVENT = "fetch_csv_event";
+  public static final String FETCH_CSV_EVENT_START_HOUR = "00:01";
+  public static final String FTP_FILE_SEPARATOR = "/";
+  public static final Pattern CSV_FILENAME_PATTERN = Pattern.compile(".*_(\\d{4}-\\d{2}-\\d{2})\\.csv");
+  public static final String CSV_DATE_FORMAT = "yyyy-MM-dd";
 
   public static final String API_KEY = "api_key";
   public static final String MESSAGE_ID = "message_id";
