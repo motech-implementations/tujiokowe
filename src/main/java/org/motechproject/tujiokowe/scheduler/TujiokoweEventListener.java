@@ -8,6 +8,7 @@ import org.motechproject.tujiokowe.exception.TujiokoweInitiateCallException;
 import org.motechproject.tujiokowe.helper.IvrCallHelper;
 import org.motechproject.tujiokowe.service.ReportService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
+import org.motechproject.tujiokowe.service.TujiokoweImportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,16 @@ public class TujiokoweEventListener {
 
   @Autowired
   private IvrCallHelper ivrCallHelper;
+
+  @Autowired
+  private TujiokoweImportService tujiokoweImportService;
+
+  @MotechListener(subjects = { TujiokoweConstants.FETCH_CSV_EVENT })
+  public void fetchCsv(MotechEvent event) {
+    LOGGER.info("Started fetching CSV data...");
+    tujiokoweImportService.fetchCSVUpdates();
+    LOGGER.info("CSV data fetched");
+  }
 
   @MotechListener(subjects = { TujiokoweConstants.DAILY_REPORT_EVENT })
   public void generateDailyReport(MotechEvent event) {

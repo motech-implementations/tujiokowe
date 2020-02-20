@@ -10,6 +10,42 @@ public class Config {
 
   @Getter
   @Setter
+  private Boolean fetchCsvData = false;
+
+  @Getter
+  @Setter
+  private String fetchCsvDataStartTime = TujiokoweConstants.FETCH_CSV_EVENT_START_HOUR;
+
+  @Getter
+  @Setter
+  private String knownHostsFile;
+
+  @Getter
+  @Setter
+  private String ftpsHost;
+
+  @Getter
+  @Setter
+  private Integer ftpsPort;
+
+  @Getter
+  @Setter
+  private String ftpsDirectory;
+
+  @Getter
+  @Setter
+  private String ftpsUsername;
+
+  @Getter
+  @Setter
+  private String ftpsPassword;
+
+  @Getter
+  @Setter
+  private String lastCsvUpdate;
+
+  @Getter
+  @Setter
   private Boolean enableReportJob = false;
 
   @Getter

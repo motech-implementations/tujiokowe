@@ -13,10 +13,70 @@
 
         <form name="form" class="form-horizontal inside" novalidate>
 
+            <h5 class="margin-before2">{{msg('tujiokowe.settings.csvImport')}}</h5>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="csvImportSettingsCheckBox">{{msg('tujiokowe.settings.csvImport.enable')}}</label>
+                <div class="col-md-1">
+                    <input type="checkbox" class="form-control" id="csvImportSettingsCheckBox" checked="unchecked" ng-model="config.fetchCsvData"/>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="config.fetchCsvData">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="fetchCsvDataStartTime">{{msg('tujiokowe.settings.csvImport.startTime')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="fetchCsvDataStartTime" type="text" ng-model="config.fetchCsvDataStartTime" time-picker ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="knownHostsFile">{{msg('tujiokowe.settings.csvImport.knownHostsFile')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="knownHostsFile" type="text" ng-model="config.knownHostsFile" ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="ftpsHost">{{msg('tujiokowe.settings.csvImport.ftpsHost')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="ftpsHost" type="text" ng-model="config.ftpsHost" ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="ftpsPort">{{msg('tujiokowe.settings.csvImport.ftpsPort')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="ftpsPort" type="number" ng-model="config.ftpsPort" ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="ftpsDirectory">{{msg('tujiokowe.settings.csvImport.directory')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="ftpsDirectory" type="text" ng-model="config.ftpsDirectory" ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="ftpsUsername">{{msg('tujiokowe.settings.csvImport.username')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="ftpsUsername" type="text" ng-model="config.ftpsUsername" ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="ftpsPassword">{{msg('tujiokowe.settings.csvImport.password')}}</label>
+                    <div class="col-md-4">
+                        <input class="form-control" id="ftpsPassword" type="password" ng-model="config.ftpsPassword" ng-required="config.fetchCsvData">
+                    </div>
+                </div>
+            </div>
+
             <h5 class="margin-before2">{{msg('tujiokowe.settings.report')}}</h5>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">{{msg('tujiokowe.settings.report.enable')}}</label>
+                <label class="col-md-2 control-label" for="reportSettingsCheckBox">{{msg('tujiokowe.settings.report.enable')}}</label>
                 <div class="col-md-1">
                     <input type="checkbox" class="form-control" id="reportSettingsCheckBox" checked="unchecked" ng-model="config.enableReportJob"/>
                 </div>
@@ -34,7 +94,7 @@
             <h5 class="margin-before2">{{msg('tujiokowe.settings.ivrCalls')}}</h5>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">{{msg('tujiokowe.settings.sendIvrCalls')}}</label>
+                <label class="col-md-2 control-label" for="sendIvrCalls">{{msg('tujiokowe.settings.sendIvrCalls')}}</label>
                 <div class="col-md-1">
                     <input type="checkbox" class="form-control" id="sendIvrCalls" ng-model="config.sendIvrCalls"/>
                 </div>

@@ -34,7 +34,20 @@ public class TujiokoweScheduler {
     motechSchedulerService.safeScheduleRepeatingPeriodJob(job);
   }
 
+  public void scheduleFetchCsvJob(DateTime startDate) {
+    Period period = Period.days(1);
+    MotechEvent event = new MotechEvent(TujiokoweConstants.FETCH_CSV_EVENT);
+
+    RepeatingPeriodSchedulableJob job = new RepeatingPeriodSchedulableJob(event, startDate.toDate(),
+        null, period, true);
+    motechSchedulerService.safeScheduleRepeatingPeriodJob(job);
+  }
+
   public void unscheduleDailyReportJob() {
     motechSchedulerService.safeUnscheduleAllJobs(TujiokoweConstants.DAILY_REPORT_EVENT);
+  }
+
+  public void unscheduleFetchCsvJob() {
+    motechSchedulerService.safeUnscheduleAllJobs(TujiokoweConstants.FETCH_CSV_EVENT);
   }
 }
