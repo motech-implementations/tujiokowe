@@ -1,7 +1,6 @@
 package org.motechproject.tujiokowe.service.impl;
 
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.model.Time;
 import org.motechproject.messagecampaign.exception.CampaignNotFoundException;
@@ -16,6 +15,7 @@ import org.motechproject.tujiokowe.exception.TujiokoweEnrollmentException;
 import org.motechproject.tujiokowe.repository.EnrollmentDataService;
 import org.motechproject.tujiokowe.repository.SubjectEnrollmentsDataService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
+import org.motechproject.tujiokowe.util.PhoneValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -484,7 +484,7 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   }
 
   private boolean requiredDataMissing(Subject subject) {
-    return StringUtils.isBlank(subject.getPhoneNumber());
+    return PhoneValidator.isNotValid(subject.getPhoneNumber());
   }
 
   @Autowired
