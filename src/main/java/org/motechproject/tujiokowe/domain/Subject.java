@@ -38,6 +38,8 @@ public class Subject {
   public static final String SUBJECT_ID_FIELD_NAME = "subjectId";
   public static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant ID";
 
+  private static final String SUBJECT_SITE_ID_FIELD_DISPLAY_NAME = "Site ID";
+
   @Unique
   @NonEditable
   @UIDisplayable(position = 0)
@@ -72,7 +74,7 @@ public class Subject {
 
   @UIDisplayable(position = 4)
   @Column
-  @Field
+  @Field(displayName = SUBJECT_SITE_ID_FIELD_DISPLAY_NAME)
   @Getter
   @Setter
   private String siteId;

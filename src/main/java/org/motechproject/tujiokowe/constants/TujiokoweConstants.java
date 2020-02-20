@@ -104,7 +104,7 @@ public final class TujiokoweConstants {
       put("Visit Type", "visitType");
       put("Actual Date", "actualDate");
       put("Planned Date", "plannedDate");
-      put("Site Id", "siteId");
+      put("Site ID", "siteId");
     }
   };
 
@@ -114,7 +114,7 @@ public final class TujiokoweConstants {
       put("Participant ID", "subject.subjectId");
       put("Phone Number", "subject.phoneNumber");
       put("Visit type", "type");
-      put("Site Id", "subject.siteId");
+      put("Site ID", "subject.siteId");
     }
   };
 
@@ -124,7 +124,7 @@ public final class TujiokoweConstants {
       put("Visit type", "type");
       put("Planned Visit Date", "dateProjected");
       put("No Of Days Exceeded Visit", "noOfDaysExceededVisit");
-      put("Site Id", "subject.siteId");
+      put("Site ID", "subject.siteId");
     }
   };
 
@@ -135,7 +135,7 @@ public final class TujiokoweConstants {
       put("Visit type", "type");
       put("Planned Visit Date", "dateProjected");
       put("No Of Days Exceeded Visit", "noOfDaysExceededVisit");
-      put("Site Id", "subject.siteId");
+      put("Site ID", "subject.siteId");
     }
   };
 
@@ -143,7 +143,7 @@ public final class TujiokoweConstants {
     {
       put("Participant ID", "subject.subjectId");
       put("Date of Unenrollment", "dateOfUnenrollment");
-      put("Site Id", "subject.siteId");
+      put("Site ID", "subject.siteId");
     }
   };
 
@@ -161,7 +161,7 @@ public final class TujiokoweConstants {
       put("No. of Attempts", "numberOfAttempts");
       put("SMS", "sms");
       put("SMS Received Date", "smsReceivedDate");
-      put("Site Id", "subject.siteId");
+      put("Site ID", "subject.siteId");
     }
   };
 
@@ -169,7 +169,7 @@ public final class TujiokoweConstants {
     {
       put("Participant ID", "subject.subjectId");
       put("Status", "status");
-      put("Site Id", "subject.siteId");
+      put("Site ID", "subject.siteId");
     }
   };
 
