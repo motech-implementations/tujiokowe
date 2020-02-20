@@ -36,7 +36,7 @@ import org.motechproject.tujiokowe.util.serializer.CustomVisitListDeserializer;
 public class Subject {
 
   public static final String SUBJECT_ID_FIELD_NAME = "subjectId";
-  public static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant Id";
+  public static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant ID";
 
   @Unique
   @NonEditable
