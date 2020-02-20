@@ -1,12 +1,12 @@
 package org.motechproject.tujiokowe.service.impl;
 
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
 import org.motechproject.tujiokowe.domain.Subject;
 import org.motechproject.tujiokowe.repository.SubjectDataService;
 import org.motechproject.tujiokowe.service.SubjectService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
 import org.motechproject.tujiokowe.service.VisitService;
+import org.motechproject.tujiokowe.util.PhoneValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,14 +83,14 @@ public class SubjectServiceImpl implements SubjectService {
         visitService.recalculateBoostRelatedVisitsPlannedDates(subject);
       }
 
-      if ((StringUtils.isBlank(oldSubject.getPhoneNumber()))
-          && StringUtils.isNotBlank(newSubject.getPhoneNumber())) {
+      if (PhoneValidator.isNotValid(oldSubject.getPhoneNumber())
+          && PhoneValidator.isValid(newSubject.getPhoneNumber())) {
         subject.setPrimeVaccinationDate(newSubject.getPrimeVaccinationDate());
         subject.setBoostVaccinationDate(newSubject.getBoostVaccinationDate());
 
         tujiokoweEnrollmentService.enrollOrReenrollSubject(subject);
-      } else if (StringUtils.isNotBlank(oldSubject.getPhoneNumber())
-          && StringUtils.isBlank(newSubject.getPhoneNumber())) {
+      } else if (PhoneValidator.isValid(oldSubject.getPhoneNumber())
+          && PhoneValidator.isNotValid(newSubject.getPhoneNumber())) {
         tujiokoweEnrollmentService.unenrollAndRemoveEnrollment(subject);
       }
     }
