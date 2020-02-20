@@ -22,7 +22,7 @@ public final class TujiokoweConstants {
 
   public static final Map<String, Float> REPORT_COLUMN_WIDTHS = new LinkedHashMap<String, Float>() {
     {
-      put("Participant Id", 64f); //NO CHECKSTYLE MagicNumber
+      put("Participant ID", 64f); //NO CHECKSTYLE MagicNumber
       put("SMS", 32f);
     }
   };
@@ -100,7 +100,7 @@ public final class TujiokoweConstants {
 
   public static final Map<String, String> VISIT_RESCHEDULE_FIELDS_MAP = new LinkedHashMap<String, String>() {
     {
-      put("Participant Id", "participantId");
+      put("Participant ID", "participantId");
       put("Visit Type", "visitType");
       put("Actual Date", "actualDate");
       put("Planned Date", "plannedDate");
@@ -130,7 +130,7 @@ public final class TujiokoweConstants {
 
   public static final Map<String, String> M_AND_E_MISSED_CLINIC_VISITS_REPORT_MAP = new LinkedHashMap<String, String>() {
     {
-      put("Participant Id", "subject.subjectId");
+      put("Participant ID", "subject.subjectId");
       put("Phone", "subject.phoneNumber");
       put("Visit type", "type");
       put("Planned Visit Date", "dateProjected");
@@ -141,7 +141,7 @@ public final class TujiokoweConstants {
 
   public static final Map<String, String> OPTS_OUT_OF_MOTECH_MESSAGES_REPORT_MAP = new LinkedHashMap<String, String>() {
     {
-      put("Participant Id", "subject.subjectId");
+      put("Participant ID", "subject.subjectId");
       put("Date of Unenrollment", "dateOfUnenrollment");
       put("Site Id", "subject.siteId");
     }
@@ -150,7 +150,7 @@ public final class TujiokoweConstants {
 
   public static final Map<String, String> IVR_AND_SMS_STATISTIC_REPORT_MAP = new LinkedHashMap<String, String>() {
     {
-      put("Participant Id", "subject.subjectId");
+      put("Participant ID", "subject.subjectId");
       put("Phone", "subject.phoneNumber");
       put("Message ID", "messageId");
       put("Sent Date", "sendDate");
@@ -167,7 +167,7 @@ public final class TujiokoweConstants {
 
   public static final Map<String, String> SUBJECT_ENROLLMENTS_MAP = new LinkedHashMap<String, String>() {
     {
-      put("Participant Id", "subject.subjectId");
+      put("Participant ID", "subject.subjectId");
       put("Status", "status");
       put("Site Id", "subject.siteId");
     }
