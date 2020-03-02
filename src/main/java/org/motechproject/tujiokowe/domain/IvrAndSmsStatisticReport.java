@@ -49,6 +49,11 @@ public class IvrAndSmsStatisticReport {
   @Field
   @Getter
   @Setter
+  private double callLength;
+
+  @Field
+  @Getter
+  @Setter
   private double messagePercentListened;
 
   @Field
@@ -78,7 +83,7 @@ public class IvrAndSmsStatisticReport {
   private String owner;
 
   public IvrAndSmsStatisticReport(String providerCallId, Subject subject, String messageId, //NO CHECKSTYLE ParameterNumber
-      DateTime sendDate, double expectedDuration, double timeListenedTo,
+      DateTime sendDate, double expectedDuration, double timeListenedTo, double callLength,
       double messagePercentListened, DateTime receivedDate, int numberOfAttempts, boolean sms,
       boolean smsFailed, DateTime smsReceivedDate) {
     this.providerCallId = providerCallId;
@@ -87,6 +92,7 @@ public class IvrAndSmsStatisticReport {
     this.sendDate = sendDate;
     this.expectedDuration = expectedDuration;
     this.timeListenedTo = timeListenedTo;
+    this.callLength = callLength;
     this.messagePercentListened = messagePercentListened;
     this.receivedDate = receivedDate;
     this.numberOfAttempts = numberOfAttempts;
@@ -95,7 +101,7 @@ public class IvrAndSmsStatisticReport {
   }
 
   public void updateReportData(String providerCallId, Subject subject, String messageId, //NO CHECKSTYLE ParameterNumber
-      DateTime sendDate, double expectedDuration, double timeListenedTo,
+      DateTime sendDate, double expectedDuration, double timeListenedTo, double callLength,
       double messagePercentListened, DateTime receivedDate, int numberOfAttempts, boolean sms,
       boolean smsFailed, DateTime smsReceivedDate) {
     this.providerCallId = providerCallId;
@@ -104,6 +110,7 @@ public class IvrAndSmsStatisticReport {
     this.sendDate = sendDate;
     this.expectedDuration = expectedDuration;
     this.timeListenedTo = timeListenedTo;
+    this.callLength = callLength;
     this.messagePercentListened = messagePercentListened;
     this.receivedDate = receivedDate;
     this.numberOfAttempts = numberOfAttempts;

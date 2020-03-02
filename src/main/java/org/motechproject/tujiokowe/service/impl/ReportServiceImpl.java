@@ -160,6 +160,7 @@ public class ReportServiceImpl implements ReportService {
     DateTime smsReceivedDate = null;
     double expectedDuration = 0;
     double timeListenedTo = 0;
+    double callLength = 0;
     double messagePercentListened = 0;
 
     String smsDeliveryLogId = null;
@@ -278,7 +279,7 @@ public class ReportServiceImpl implements ReportService {
             .toDateTime(DateTimeZone.getDefault());
 
         if (StringUtils.isNotBlank(callRecord.getCallDuration())) {
-          timeListenedTo = Double.parseDouble(callRecord.getCallDuration());
+          callLength = Double.parseDouble(callRecord.getCallDuration());
 
           if (StringUtils.isNotBlank(callRecord.getMessagePercentListened())) {
             messagePercentListened = Double.parseDouble(callRecord.getMessagePercentListened());
@@ -286,8 +287,8 @@ public class ReportServiceImpl implements ReportService {
                 TujiokoweConstants.IVR_CALL_DETAIL_RECORD_MESSAGE_SECOND_COMPLETED);
 
             if (StringUtils.isNotBlank(messageSecondsCompleted)) {
-              expectedDuration = Double.parseDouble(messageSecondsCompleted) * HUNDRED_PERCENT
-                  / messagePercentListened;
+              timeListenedTo = Double.parseDouble(messageSecondsCompleted);
+              expectedDuration = timeListenedTo * HUNDRED_PERCENT / messagePercentListened;
             }
           }
         }
@@ -305,13 +306,13 @@ public class ReportServiceImpl implements ReportService {
     if (ivrAndSmsStatisticReport == null) {
       ivrAndSmsStatisticReport = new IvrAndSmsStatisticReport(providerCallId, subject, messageId,
           sendDate,
-          expectedDuration, timeListenedTo, messagePercentListened, receivedDate, attempts, sms,
+          expectedDuration, timeListenedTo, callLength, messagePercentListened, receivedDate, attempts, sms,
           smsFailed, smsReceivedDate);
       ivrAndSmsStatisticReportDataService.create(ivrAndSmsStatisticReport);
     } else {
       ivrAndSmsStatisticReport
           .updateReportData(providerCallId, subject, messageId, sendDate, expectedDuration,
-              timeListenedTo, messagePercentListened, receivedDate, attempts, sms, smsFailed,
+              timeListenedTo, callLength, messagePercentListened, receivedDate, attempts, sms, smsFailed,
               smsReceivedDate);
       ivrAndSmsStatisticReportDataService.update(ivrAndSmsStatisticReport);
     }

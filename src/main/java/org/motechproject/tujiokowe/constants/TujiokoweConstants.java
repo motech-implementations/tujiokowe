@@ -163,6 +163,7 @@ public final class TujiokoweConstants {
       put("Sent Date", "sendDate");
       put("Expected Duration", "expectedDuration");
       put("Time Listened To", "timeListenedTo");
+      put("Call Length", "callLength");
       put("Percent Listened", "messagePercentListened");
       put("Received Date", "receivedDate");
       put("No. of Attempts", "numberOfAttempts");
