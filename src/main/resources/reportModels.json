@@ -162,6 +162,7 @@
       "tujiokowe.reports.IvrAndSmsStatisticReport.sendDate",
       "tujiokowe.reports.IvrAndSmsStatisticReport.expectedDuration",
       "tujiokowe.reports.IvrAndSmsStatisticReport.timeListenedTo",
+      "tujiokowe.reports.IvrAndSmsStatisticReport.callLength",
       "tujiokowe.reports.IvrAndSmsStatisticReport.messagePercentListened",
       "tujiokowe.reports.IvrAndSmsStatisticReport.receivedDate",
       "tujiokowe.reports.IvrAndSmsStatisticReport.noOfAttempts",
@@ -200,6 +201,10 @@
     }, {
       "name": "timeListenedTo",
       "index": "timeListenedTo",
+      "align": "center"
+    }, {
+      "name": "callLength",
+      "index": "callLength",
       "align": "center"
     }, {
       "name": "messagePercentListened",
