@@ -29,8 +29,6 @@ import org.motechproject.tujiokowe.helper.DtoLookupHelper;
 import org.motechproject.tujiokowe.service.ExportService;
 import org.motechproject.tujiokowe.template.PdfBasicTemplate;
 import org.motechproject.tujiokowe.template.PdfExportTemplate;
-import org.motechproject.tujiokowe.template.XlsBasicTemplate;
-import org.motechproject.tujiokowe.template.XlsExportTemplate;
 import org.motechproject.tujiokowe.util.QueryParamsBuilder;
 import org.motechproject.tujiokowe.web.domain.GridSettings;
 import org.slf4j.Logger;
@@ -182,9 +180,7 @@ public class ExportController {
         exportService.exportEntityToCSV(response.getWriter(), entityDtoType, entityType, headerMap,
             settings.getLookup(), settings.getFields(), queryParams);
       } else if (XLS_EXPORT_FORMAT.equals(outputFormat)) {
-        XlsBasicTemplate template = new XlsExportTemplate(response.getOutputStream());
-
-        exportService.exportEntityToExcel(template, entityDtoType, entityType, headerMap,
+        exportService.exportEntityToExcel(response.getOutputStream(), entityDtoType, entityType, headerMap,
             settings.getLookup(), settings.getFields(), queryParams);
       }
     } catch (IOException | TujiokoweLookupException | TujiokoweExportException e) {

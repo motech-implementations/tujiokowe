@@ -1,6 +1,7 @@
 package org.motechproject.tujiokowe.service.impl;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -16,7 +17,6 @@ import org.motechproject.mds.service.impl.csv.writer.TableWriter;
 import org.motechproject.tujiokowe.service.ExportService;
 import org.motechproject.tujiokowe.service.LookupService;
 import org.motechproject.tujiokowe.template.PdfBasicTemplate;
-import org.motechproject.tujiokowe.template.XlsBasicTemplate;
 import org.motechproject.tujiokowe.util.CustomColumnWidthPdfTableWriter;
 import org.motechproject.tujiokowe.util.ExcelTableWriter;
 import org.motechproject.tujiokowe.util.PdfTableWriter;
@@ -51,10 +51,10 @@ public class ExportServiceImpl implements ExportService {
   }
 
   @Override
-  public void exportEntityToExcel(XlsBasicTemplate template, Class<?> entityDtoType,
+  public void exportEntityToExcel(OutputStream outputStream, Class<?> entityDtoType,
       Class<?> entityType, Map<String, String> headerMap, String lookup,
       String lookupFields, QueryParams queryParams) throws IOException {
-    ExcelTableWriter tableWriter = new ExcelTableWriter(template);
+    ExcelTableWriter tableWriter = new ExcelTableWriter(outputStream);
     exportEntity(entityDtoType, entityType, headerMap, tableWriter, lookup, lookupFields,
         queryParams);
   }
