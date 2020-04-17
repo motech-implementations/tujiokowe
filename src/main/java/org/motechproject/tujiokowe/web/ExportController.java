@@ -27,8 +27,6 @@ import org.motechproject.tujiokowe.exception.TujiokoweExportException;
 import org.motechproject.tujiokowe.exception.TujiokoweLookupException;
 import org.motechproject.tujiokowe.helper.DtoLookupHelper;
 import org.motechproject.tujiokowe.service.ExportService;
-import org.motechproject.tujiokowe.template.PdfBasicTemplate;
-import org.motechproject.tujiokowe.template.PdfExportTemplate;
 import org.motechproject.tujiokowe.util.QueryParamsBuilder;
 import org.motechproject.tujiokowe.web.domain.GridSettings;
 import org.slf4j.Logger;
@@ -172,9 +170,7 @@ public class ExportController {
 
     try {
       if (PDF_EXPORT_FORMAT.equals(outputFormat)) {
-        PdfBasicTemplate template = new PdfExportTemplate(response.getOutputStream());
-
-        exportService.exportEntityToPDF(template, entityDtoType, entityType, headerMap,
+        exportService.exportEntityToPDF(response.getOutputStream(), entityDtoType, entityType, headerMap,
             settings.getLookup(), settings.getFields(), queryParams);
       } else if (CSV_EXPORT_FORMAT.equals(outputFormat)) {
         exportService.exportEntityToCSV(response.getWriter(), entityDtoType, entityType, headerMap,
