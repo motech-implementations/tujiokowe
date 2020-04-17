@@ -46,6 +46,7 @@
             exportWithOrder : false,
             exportWithFilter : true
         };
+        $scope.disableExportButton = false;
 
         $scope.exportEntityInstances = function () {
             $scope.checkboxModel.exportWithFilter = true;
@@ -61,8 +62,27 @@
         };
 
         $scope.closeExportTujiokoweInstanceModal = function () {
-            $('#exportTujiokoweInstanceModal').resetForm();
+            $('#exportTujiokoweInstanceForm').resetForm();
             $('#exportTujiokoweInstanceModal').modal('hide');
+        };
+
+        $scope.saveFile = function (data, filename, type) {
+            var file = new Blob([data], {type: type});
+
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                  url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            }
         };
 
         $scope.exportInstanceWithUrl = function(url) {
@@ -71,13 +91,28 @@
                 url = url + "&fields=" + encodeURIComponent(JSON.stringify($scope.lookupBy));
             }
 
-            $http.get(url)
-            .success(function () {
-                $('#exportTujiokoweInstanceModal').resetForm();
+            $http.get(url, { responseType: 'blob' })
+            .success(function (data, status, headers) {
+                $scope.disableExportButton = false;
+
+                $('#exportTujiokoweInstanceForm').resetForm();
                 $('#exportTujiokoweInstanceModal').modal('hide');
-                window.location.replace(url);
+
+                var fileType = headers('Content-Type');
+                var fileName = 'instance.' + $scope.exportFormat;
+
+                var contentDisposition = headers('Content-Disposition');
+                var filenameRegex = /filename[^;=\n]*=([\w.]*)/;
+                var matches = filenameRegex.exec(contentDisposition);
+
+                if (matches != null && matches[1]) {
+                    fileName = matches[1];
+                }
+
+                $scope.saveFile(data, fileName, fileType);
             })
             .error(function (response) {
+                $scope.disableExportButton = false;
                 handleResponse('mds.error', 'mds.error.exportData', response);
             });
         };
