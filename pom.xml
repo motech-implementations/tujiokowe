@@ -361,7 +361,6 @@
               org.motechproject.tujiokowe.repository;version=${project.version},
               org.motechproject.tujiokowe.service;version=${project.version},
               org.motechproject.tujiokowe.service.impl;version=${project.version},
-              org.motechproject.tujiokowe.template;version=${project.version},
               org.motechproject.tujiokowe.util;version=${project.version},
               org.motechproject.tujiokowe.web;version=${project.version},
               org.motechproject.tujiokowe.web.domain;version=${project.version}

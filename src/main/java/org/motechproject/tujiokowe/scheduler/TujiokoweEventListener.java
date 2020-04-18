@@ -6,6 +6,7 @@ import org.motechproject.messagecampaign.EventKeys;
 import org.motechproject.tujiokowe.constants.TujiokoweConstants;
 import org.motechproject.tujiokowe.exception.TujiokoweInitiateCallException;
 import org.motechproject.tujiokowe.helper.IvrCallHelper;
+import org.motechproject.tujiokowe.service.ExportService;
 import org.motechproject.tujiokowe.service.ReportService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
 import org.motechproject.tujiokowe.service.TujiokoweImportService;
@@ -30,6 +31,9 @@ public class TujiokoweEventListener {
 
   @Autowired
   private TujiokoweImportService tujiokoweImportService;
+
+  @Autowired
+  private ExportService exportService;
 
   @MotechListener(subjects = { TujiokoweConstants.FETCH_CSV_EVENT })
   public void fetchCsv(MotechEvent event) {
@@ -66,5 +70,10 @@ public class TujiokoweEventListener {
     } catch (TujiokoweInitiateCallException e) {
       LOGGER.error(e.getMessage(), e);
     }
+  }
+
+  @MotechListener(subjects = { TujiokoweConstants.CLEAR_EXPORT_TASKS_EVENT })
+  public void clearExportTasks(MotechEvent event) {
+    exportService.cancelAllExportTasks();
   }
 }

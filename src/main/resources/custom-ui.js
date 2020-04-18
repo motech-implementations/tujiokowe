@@ -84,6 +84,25 @@ $scope.closeExportTujiokoweInstanceModal = function () {
     $('#exportTujiokoweInstanceModal').modal('hide');
 };
 
+$scope.saveFile = function (data, filename, type) {
+    var file = new Blob([data], {type: type});
+
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+          url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+};
+
 $scope.exportInstance = function() {
     var selectedFieldsName = [], url, sortColumn, sortDirection;
 
@@ -112,11 +131,23 @@ $scope.exportInstance = function() {
         url = url + "&fields=" + JSON.stringify($scope.lookupBy);
     }
 
-    $http.get(url)
-        .success(function () {
+    $http.get(url, { responseType: 'blob' })
+        .success(function (data, status, headers) {
             $('#exportInstanceForm').resetForm();
             $('#exportInstanceModal').modal('hide');
-            window.location.replace(url);
+
+            var fileType = headers('Content-Type');
+            var fileName = 'instance.' + $scope.exportFormat;
+
+            var contentDisposition = headers('Content-Disposition');
+            var filenameRegex = /filename[^;=\n]*=([\w.]*)/;
+            var matches = filenameRegex.exec(contentDisposition);
+
+            if (matches != null && matches[1]) {
+                fileName = matches[1];
+            }
+
+            $scope.saveFile(data, fileName, fileType);
         })
         .error(function (response) {
             handleResponse('mds.error', 'mds.error.exportData', response);

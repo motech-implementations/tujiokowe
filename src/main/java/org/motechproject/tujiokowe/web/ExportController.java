@@ -2,11 +2,16 @@ package org.motechproject.tujiokowe.web;
 
 import static org.apache.commons.lang.CharEncoding.UTF_8;
 import static org.motechproject.tujiokowe.constants.TujiokoweConstants.APPLICATION_PDF_CONTENT;
+import static org.motechproject.tujiokowe.constants.TujiokoweConstants.CSV_EXPORT_FORMAT;
+import static org.motechproject.tujiokowe.constants.TujiokoweConstants.PDF_EXPORT_FORMAT;
 import static org.motechproject.tujiokowe.constants.TujiokoweConstants.TEXT_CSV_CONTENT;
+import static org.motechproject.tujiokowe.constants.TujiokoweConstants.XLS_EXPORT_FORMAT;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -19,26 +24,24 @@ import org.motechproject.tujiokowe.constants.TujiokoweConstants;
 import org.motechproject.tujiokowe.domain.IvrAndSmsStatisticReport;
 import org.motechproject.tujiokowe.domain.SubjectEnrollments;
 import org.motechproject.tujiokowe.domain.Visit;
+import org.motechproject.tujiokowe.dto.ExportResult;
+import org.motechproject.tujiokowe.dto.ExportStatusResponse;
 import org.motechproject.tujiokowe.dto.IvrAndSmsStatisticReportDto;
 import org.motechproject.tujiokowe.dto.MissedVisitsReportDto;
 import org.motechproject.tujiokowe.dto.OptsOutOfMotechMessagesReportDto;
 import org.motechproject.tujiokowe.dto.VisitRescheduleDto;
-import org.motechproject.tujiokowe.exception.TujiokoweExportException;
-import org.motechproject.tujiokowe.exception.TujiokoweLookupException;
 import org.motechproject.tujiokowe.helper.DtoLookupHelper;
 import org.motechproject.tujiokowe.service.ExportService;
-import org.motechproject.tujiokowe.template.PdfBasicTemplate;
-import org.motechproject.tujiokowe.template.PdfExportTemplate;
-import org.motechproject.tujiokowe.template.XlsBasicTemplate;
-import org.motechproject.tujiokowe.template.XlsExportTemplate;
 import org.motechproject.tujiokowe.util.QueryParamsBuilder;
 import org.motechproject.tujiokowe.web.domain.GridSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,108 +53,138 @@ public class ExportController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExportController.class);
 
-  private static final String PDF_EXPORT_FORMAT = "pdf";
-  private static final String CSV_EXPORT_FORMAT = "csv";
-  private static final String XLS_EXPORT_FORMAT = "xls";
-
   @Autowired
   private ExportService exportService;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
+  @RequestMapping(value = "/export/{exportId}/status", method = RequestMethod.GET)
+  public ResponseEntity<ExportStatusResponse> exportStatus(@PathVariable UUID exportId) {
+    ExportStatusResponse exportStatus = exportService.getExportStatus(exportId);
+
+    return new ResponseEntity<>(exportStatus, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/export/{exportId}/results", method = RequestMethod.GET)
+  public void exportResults(@PathVariable UUID exportId, HttpServletResponse response) throws IOException {
+
+    ExportResult exportResult = exportService.getExportResults(exportId);
+
+    setResponseData(response, exportResult.getExportFormat(), exportResult.getFileName());
+
+    OutputStream responseOutputStream = response.getOutputStream();
+
+    exportResult.getOutputStream().writeTo(responseOutputStream);
+    responseOutputStream.close();
+  }
+
+  @RequestMapping(value = "/export/{exportId}/cancel", method = RequestMethod.GET)
+  @ResponseStatus(HttpStatus.OK)
+  public void exportCancel(@PathVariable UUID exportId) {
+    exportService.cancelExport(exportId);
+  }
+
   @RequestMapping(value = "/exportInstances/visitReschedule", method = RequestMethod.GET)
-  public void exportVisitReschedule(GridSettings settings, @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+  public ResponseEntity<String> exportVisitReschedule(GridSettings settings, @RequestParam String exportRecords,
+      @RequestParam String outputFormat) throws IOException {
 
     GridSettings newSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-    exportEntity(newSettings, exportRecords, outputFormat, response,
+    UUID exportId = exportEntity(newSettings, exportRecords, outputFormat,
         TujiokoweConstants.VISIT_RESCHEDULE_NAME,
         VisitRescheduleDto.class, Visit.class, TujiokoweConstants.VISIT_RESCHEDULE_FIELDS_MAP);
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/exportDailyClinicVisitScheduleReport", method = RequestMethod.GET)
-  public void exportDailyClinicVisitScheduleReport(GridSettings settings,
+  public ResponseEntity<String> exportDailyClinicVisitScheduleReport(GridSettings settings,
       @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+      @RequestParam String outputFormat) throws IOException {
 
-    exportEntity(settings, exportRecords, outputFormat, response,
+    UUID exportId = exportEntity(settings, exportRecords, outputFormat,
         TujiokoweConstants.DAILY_CLINIC_VISIT_SCHEDULE_REPORT_NAME,
         null, Visit.class, TujiokoweConstants.DAILY_CLINIC_VISIT_SCHEDULE_REPORT_MAP);
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/exportFollowupsMissedClinicVisitsReport", method = RequestMethod.GET)
-  public void exportFollowupsMissedClinicVisitsReport(GridSettings settings,
+  public ResponseEntity<String> exportFollowupsMissedClinicVisitsReport(GridSettings settings,
       @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+      @RequestParam String outputFormat) throws IOException {
 
     GridSettings newSettings = DtoLookupHelper
         .changeLookupAndOrderForFollowupsMissedClinicVisitsReport(settings);
 
     if (newSettings == null) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid lookups params");
-    } else {
-      exportEntity(newSettings, exportRecords, outputFormat, response,
+      return new ResponseEntity<>("Invalid lookups params", HttpStatus.BAD_REQUEST);
+    }
+    UUID exportId = exportEntity(newSettings, exportRecords, outputFormat,
           TujiokoweConstants.FOLLOW_UPS_MISSED_CLINIC_VISITS_REPORT_NAME,
           MissedVisitsReportDto.class, Visit.class,
           TujiokoweConstants.FOLLOW_UPS_MISSED_CLINIC_VISITS_REPORT_MAP);
-    }
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/exportMandEMissedClinicVisitsReport", method = RequestMethod.GET)
-  public void exportMandEMissedClinicVisitsReport(GridSettings settings,
+  public ResponseEntity<String> exportMandEMissedClinicVisitsReport(GridSettings settings,
       @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+      @RequestParam String outputFormat) throws IOException {
 
     GridSettings newSettings = DtoLookupHelper
         .changeLookupAndOrderForMandEMissedClinicVisitsReport(settings);
 
     if (newSettings == null) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid lookups params");
-    } else {
-      exportEntity(newSettings, exportRecords, outputFormat, response,
+      return new ResponseEntity<>("Invalid lookups params", HttpStatus.BAD_REQUEST);
+    }
+    UUID exportId = exportEntity(newSettings, exportRecords, outputFormat,
           TujiokoweConstants.M_AND_E_MISSED_CLINIC_VISITS_REPORT_NAME,
           MissedVisitsReportDto.class, Visit.class,
           TujiokoweConstants.M_AND_E_MISSED_CLINIC_VISITS_REPORT_MAP);
-    }
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/exportOptsOutOfMotechMessagesReport", method = RequestMethod.GET)
-  public void exportOptsOutOfMotechMessagesReport(GridSettings settings,
+  public ResponseEntity<String> exportOptsOutOfMotechMessagesReport(GridSettings settings,
       @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+      @RequestParam String outputFormat) throws IOException {
 
     GridSettings newSettings = DtoLookupHelper
         .changeLookupAndOrderForOptsOutOfMotechMessagesReport(settings);
 
-    if (newSettings == null) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid lookups params");
-    } else {
-      exportEntity(newSettings, exportRecords, outputFormat, response,
+    UUID exportId = exportEntity(newSettings, exportRecords, outputFormat,
           TujiokoweConstants.OPTS_OUT_OF_MOTECH_MESSAGES_REPORT_NAME,
           OptsOutOfMotechMessagesReportDto.class, SubjectEnrollments.class,
           TujiokoweConstants.OPTS_OUT_OF_MOTECH_MESSAGES_REPORT_MAP);
-    }
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/exportIvrAndSmsStatisticReport", method = RequestMethod.GET)
-  public void exportIvrAndSmsStatisticReport(GridSettings settings,
+  public ResponseEntity<String> exportIvrAndSmsStatisticReport(GridSettings settings,
       @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+      @RequestParam String outputFormat) throws IOException {
 
-    exportEntity(settings, exportRecords, outputFormat, response,
+    UUID exportId = exportEntity(settings, exportRecords, outputFormat,
         TujiokoweConstants.IVR_AND_SMS_STATISTIC_REPORT_NAME,
         IvrAndSmsStatisticReportDto.class, IvrAndSmsStatisticReport.class,
         TujiokoweConstants.IVR_AND_SMS_STATISTIC_REPORT_MAP);
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/exportSubjectEnrollment", method = RequestMethod.GET)
-  public void exportSubjectEnrollment(GridSettings settings, @RequestParam String exportRecords,
-      @RequestParam String outputFormat, HttpServletResponse response) throws IOException {
+  public ResponseEntity<String> exportSubjectEnrollment(GridSettings settings, @RequestParam String exportRecords,
+      @RequestParam String outputFormat) throws IOException {
 
-    exportEntity(settings, exportRecords, outputFormat, response,
+    UUID exportId = exportEntity(settings, exportRecords, outputFormat,
         TujiokoweConstants.SUBJECT_ENROLLMENTS_NAME,
         null, SubjectEnrollments.class, TujiokoweConstants.SUBJECT_ENROLLMENTS_MAP);
+
+    return new ResponseEntity<>(exportId.toString(), HttpStatus.OK);
   }
 
   @ExceptionHandler
@@ -162,35 +195,15 @@ public class ExportController {
     return e.getMessage();
   }
 
-  private void exportEntity(GridSettings settings, String exportRecords, String outputFormat, //NO CHECKSTYLE ParameterNumber
-      HttpServletResponse response, String fileNameBeginning, Class<?> entityDtoType,
-      Class<?> entityType, Map<String, String> headerMap) throws IOException {
-
-    setResponseData(response, outputFormat, fileNameBeginning);
+  private UUID exportEntity(GridSettings settings, String exportRecords, String outputFormat,
+      String fileNameBeginning, Class<?> entityDtoType, Class<?> entityType, Map<String, String> headerMap) throws IOException {
 
     QueryParams queryParams = new QueryParams(1,
         StringUtils.equalsIgnoreCase(exportRecords, "all") ? null : Integer.valueOf(exportRecords),
         QueryParamsBuilder.buildOrderList(settings, getFields(settings)));
 
-    try {
-      if (PDF_EXPORT_FORMAT.equals(outputFormat)) {
-        PdfBasicTemplate template = new PdfExportTemplate(response.getOutputStream());
-
-        exportService.exportEntityToPDF(template, entityDtoType, entityType, headerMap,
-            settings.getLookup(), settings.getFields(), queryParams);
-      } else if (CSV_EXPORT_FORMAT.equals(outputFormat)) {
-        exportService.exportEntityToCSV(response.getWriter(), entityDtoType, entityType, headerMap,
-            settings.getLookup(), settings.getFields(), queryParams);
-      } else if (XLS_EXPORT_FORMAT.equals(outputFormat)) {
-        XlsBasicTemplate template = new XlsExportTemplate(response.getOutputStream());
-
-        exportService.exportEntityToExcel(template, entityDtoType, entityType, headerMap,
-            settings.getLookup(), settings.getFields(), queryParams);
-      }
-    } catch (IOException | TujiokoweLookupException | TujiokoweExportException e) {
-      LOGGER.debug(e.getMessage(), e);
-      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-    }
+    return exportService.exportEntity(outputFormat, fileNameBeginning, entityDtoType,
+        entityType, headerMap, settings.getLookup(), settings.getFields(), queryParams);
   }
 
   private Map<String, Object> getFields(GridSettings gridSettings) throws IOException {
