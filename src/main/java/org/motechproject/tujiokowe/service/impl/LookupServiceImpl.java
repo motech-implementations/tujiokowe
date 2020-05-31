@@ -145,12 +145,17 @@ public class LookupServiceImpl implements LookupService {
 
   @Override
   public <T> long getEntitiesCount(Class<T> entityType, String lookup, String lookupFields) {
+    return getEntitiesCount(entityType.getName(), lookup, lookupFields);
+  }
+
+  @Override
+  public <T> long getEntitiesCount(String entityClassName, String lookup, String lookupFields) {
     try {
       if (StringUtils.isBlank(lookup) || StringUtils.isBlank(lookupFields)) {
-        return mdsLookupService.countAll(entityType.getName());
+        return mdsLookupService.countAll(entityClassName);
       }
 
-      return mdsLookupService.count(entityType.getName(), lookup, getFields(lookupFields));
+      return mdsLookupService.count(entityClassName, lookup, getFields(lookupFields));
     } catch (IOException e) {
       throw new TujiokoweLookupException("Invalid lookup fields: " + lookupFields, e.getCause());
     }
