@@ -11,7 +11,7 @@ public class CustomColumnWidthPdfTableWriter extends PdfTableWriter {
 
   private static final float MARGIN = 5f;
   // Object initialization for log
-  private static Logger LOGGER = LoggerFactory.getLogger(CustomColumnWidthPdfTableWriter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CustomColumnWidthPdfTableWriter.class);
 
   private static final float TABLE_WIDTH = 550f;
 

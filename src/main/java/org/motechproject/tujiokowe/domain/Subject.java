@@ -31,7 +31,7 @@ import org.motechproject.tujiokowe.util.serializer.CustomVisitListDeserializer;
 /**
  * Models data for registration of Subject
  */
-@Entity(recordHistory = true, name = "Participant", maxFetchDepth = 3)
+@Entity(recordHistory = true, name = "Participant", maxFetchDepth = 2)
 @NoArgsConstructor
 public class Subject {
 
@@ -85,7 +85,7 @@ public class Subject {
   @JsonDeserialize(using = CustomVisitListDeserializer.class)
   @NonEditable(display = false)
   @Field
-  @Persistent(mappedBy = "subject")
+  @Persistent(mappedBy = "subject", defaultFetchGroup = "false")
   @Cascade(delete = true)
   @Getter
   @Setter
