@@ -1,12 +1,11 @@
 package org.motechproject.tujiokowe.util;
 
 import java.util.List;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.motechproject.tujiokowe.domain.Visit;
-import org.motechproject.tujiokowe.util.serializer.CustomVisitListSerializer;
 
 public abstract class SubjectVisitsMixin {
 
-  @JsonSerialize(using = CustomVisitListSerializer.class)
+  @JsonIgnore
   public abstract List<Visit> getVisits();
 }
