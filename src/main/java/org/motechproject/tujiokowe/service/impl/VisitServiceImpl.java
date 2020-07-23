@@ -72,7 +72,11 @@ public class VisitServiceImpl implements VisitService {
 
     if (primeVacDate != null) {
       if (boostVacDate == null) {
-        boostVacDate = calculateBoostVacDate(primeVacDate);
+        if (subject.getBoostPlannedDate() != null) {
+          boostVacDate = subject.getBoostPlannedDate();
+        } else {
+          boostVacDate = calculateBoostVacDate(primeVacDate);
+        }
       }
 
       for (Visit visit : subject.getVisits()) {
@@ -103,7 +107,11 @@ public class VisitServiceImpl implements VisitService {
 
     if (primeVacDate != null) {
       if (boostVacDate == null) {
-        boostVacDate = calculateBoostVacDate(primeVacDate);
+        if (subject.getBoostPlannedDate() != null) {
+          boostVacDate = subject.getBoostPlannedDate();
+        } else {
+          boostVacDate = calculateBoostVacDate(primeVacDate);
+        }
       }
 
       for (Visit visit : subject.getVisits()) {

@@ -12,6 +12,7 @@ import org.motechproject.tujiokowe.domain.Visit;
 import org.motechproject.tujiokowe.domain.enums.EnrollmentStatus;
 import org.motechproject.tujiokowe.domain.enums.VisitType;
 import org.motechproject.tujiokowe.exception.TujiokoweEnrollmentException;
+import org.motechproject.tujiokowe.helper.CampaignNameHelper;
 import org.motechproject.tujiokowe.repository.EnrollmentDataService;
 import org.motechproject.tujiokowe.repository.SubjectEnrollmentsDataService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
@@ -68,10 +69,9 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   public void enrollOrReenrollSubject(Subject subject) {
     for (Visit visit : subject.getVisits()) {
       if (VisitType.PRIME_VACCINATION_DAY.equals(visit.getType())) {
-        enrollOrReenrollSubject(subject, visit.getType().getDisplayValue(), visit.getDate());
+        enrollOrReenrollSubject(subject, CampaignNameHelper.getCampaignName(subject, visit), visit.getDate());
       } else if (visit.getDate() == null && visit.getDateProjected() != null) {
-        enrollOrReenrollSubject(subject, visit.getType().getDisplayValue(),
-            visit.getDateProjected());
+        enrollOrReenrollSubject(subject, CampaignNameHelper.getCampaignName(subject, visit), visit.getDateProjected());
       }
     }
   }
@@ -80,11 +80,9 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   public void enrollOrReenrollVisits(List<Visit> visits) {
     for (Visit visit : visits) {
       if (VisitType.PRIME_VACCINATION_DAY.equals(visit.getType())) {
-        enrollOrReenrollSubject(visit.getSubject(), visit.getType().getDisplayValue(),
-            visit.getDate());
+        enrollOrReenrollSubject(visit.getSubject(), CampaignNameHelper.getCampaignName(visit.getSubject(), visit), visit.getDate());
       } else if (visit.getDate() == null && visit.getDateProjected() != null) {
-        enrollOrReenrollSubject(visit.getSubject(), visit.getType().getDisplayValue(),
-            visit.getDateProjected());
+        enrollOrReenrollSubject(visit.getSubject(), CampaignNameHelper.getCampaignName(visit.getSubject(), visit), visit.getDateProjected());
       }
     }
   }
@@ -140,7 +138,7 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   public void completeCampaign(Visit visit) {
     try {
       unscheduleJobsAndSetStatusForEnrollment(visit.getSubject().getSubjectId(),
-          visit.getType().getDisplayValue(), EnrollmentStatus.COMPLETED);
+          CampaignNameHelper.getCampaignName(visit.getSubject(), visit), EnrollmentStatus.COMPLETED);
     } catch (TujiokoweEnrollmentException e) {
       LOGGER.debug(e.getMessage(), e);
     }
@@ -161,7 +159,7 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
       subjectEnrollments = new SubjectEnrollments(subject);
     }
 
-    String campaignName = visit.getType().getDisplayValue();
+    String campaignName = CampaignNameHelper.getCampaignName(subject, visit);
     LocalDate referenceDate = visit.getDateProjected();
     if (VisitType.PRIME_VACCINATION_DAY.equals(visit.getType())) {
       referenceDate = visit.getDate();
@@ -173,9 +171,10 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
       if (enrollment == null) {
         enrollment = new Enrollment(subject.getSubjectId(), campaignName, referenceDate,
             EnrollmentStatus.ENROLLED);
-        subjectEnrollments.addEnrolment(enrollment);
 
         scheduleJobsForEnrollment(enrollment, false);
+
+        subjectEnrollments.addEnrolment(enrollment);
       } else if (EnrollmentStatus.ENROLLED.equals(enrollment.getStatus())) {
         reenrollSubjectWithNewDate(subject.getSubjectId(), enrollment.getCampaignName(),
             referenceDate);
@@ -197,7 +196,7 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
   @Override
   public void unenrollAndRemoveEnrollment(Visit visit) {
     unenrollAndRemoveEnrollment(visit.getSubject().getSubjectId(),
-        visit.getType().getDisplayValue());
+        CampaignNameHelper.getCampaignName(visit.getSubject(), visit));
   }
 
   @Override
@@ -332,9 +331,9 @@ public class TujiokoweEnrollmentServiceImpl implements TujiokoweEnrollmentServic
 
     enrollment = new Enrollment(subject.getSubjectId(), campaignName, referenceDate, deliverTime);
 
-    subjectEnrollments.addEnrolment(enrollment);
-
     scheduleJobsForEnrollment(enrollment, false);
+
+    subjectEnrollments.addEnrolment(enrollment);
 
     updateSubjectEnrollments(subjectEnrollments);
   }

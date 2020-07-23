@@ -79,6 +79,22 @@ public class Subject {
   @Setter
   private String siteId;
 
+  @UIDisplayable(position = 5)
+  @JsonSerialize(using = CustomDateSerializer.class)
+  @JsonDeserialize(using = CustomDateDeserializer.class)
+  @NonEditable
+  @Field(displayName = "New Booster Planned Date")
+  @Getter
+  @Setter
+  private LocalDate boostPlannedDate;
+
+  @UIDisplayable(position = 6)
+  @Column
+  @Field
+  @Getter
+  @Setter
+  private String slot;
+
   /**
    * Other fields
    */
@@ -137,6 +153,8 @@ public class Subject {
     phoneNumber = subject.getPhoneNumber();
     primeVaccinationDate = subject.getPrimeVaccinationDate();
     boostVaccinationDate = subject.getBoostVaccinationDate();
+    boostPlannedDate = subject.getBoostPlannedDate();
+    slot = subject.getSlot();
     name = subject.getName();
   }
 

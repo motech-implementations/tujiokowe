@@ -127,5 +127,185 @@
         "startTime": "7:30"
       }
     ]
+  },
+  {
+    "name": "Boost Vaccination - Slot 1",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Slot 1 - Booster Reminder: 1 week",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-1-booster-reminder-1-week",
+        "timeOffset": "-7 Days",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 1 - Booster Reminder: 1 day",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-1-booster-reminder-1-day",
+        "timeOffset": "-1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 1 - Booster Reminder: today",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-1-booster-reminder-today",
+        "timeOffset": "0 Day",
+        "startTime": "7:30"
+      }
+    ]
+  },
+  {
+    "name": "Boost Vaccination - Slot 2",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Slot 2 - Booster Reminder: 1 week",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-2-booster-reminder-1-week",
+        "timeOffset": "-7 Days",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 2 - Booster Reminder: 1 day",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-2-booster-reminder-1-day",
+        "timeOffset": "-1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 2 - Booster Reminder: today",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-2-booster-reminder-today",
+        "timeOffset": "0 Day",
+        "startTime": "7:30"
+      }
+    ]
+  },
+  {
+    "name": "Boost Vaccination - Slot 3",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Slot 3 - Booster Reminder: 1 week",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-3-booster-reminder-1-week",
+        "timeOffset": "-7 Days",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 3 - Booster Reminder: 1 day",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-3-booster-reminder-1-day",
+        "timeOffset": "-1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 3 - Booster Reminder: today",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-3-booster-reminder-today",
+        "timeOffset": "0 Day",
+        "startTime": "7:30"
+      }
+    ]
+  },
+  {
+    "name": "Boost Vaccination - Slot 4",
+    "type": "OFFSET",
+    "messages": [
+      {
+        "name": "Slot 4 - Booster Reminder: 1 week",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-4-booster-reminder-1-week",
+        "timeOffset": "-7 Days",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 4 - Booster Reminder: 1 day",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-4-booster-reminder-1-day",
+        "timeOffset": "-1 Day",
+        "startTime": "7:30"
+      },
+      {
+        "name": "Slot 4 - Booster Reminder: today",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en"
+        ],
+        "messageKey": "slot-4-booster-reminder-today",
+        "timeOffset": "0 Day",
+        "startTime": "7:30"
+      }
+    ]
   }
 ]
