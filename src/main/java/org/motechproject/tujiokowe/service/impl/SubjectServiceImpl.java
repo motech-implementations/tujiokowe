@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.motechproject.tujiokowe.domain.Subject;
 import org.motechproject.tujiokowe.domain.Visit;
 import org.motechproject.tujiokowe.domain.enums.VisitType;
+import org.motechproject.tujiokowe.helper.IvrHelper;
 import org.motechproject.tujiokowe.repository.SubjectDataService;
 import org.motechproject.tujiokowe.service.SubjectService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
@@ -36,6 +37,9 @@ public class SubjectServiceImpl implements SubjectService {
   @Autowired
   private TujiokoweEnrollmentService tujiokoweEnrollmentService;
 
+  @Autowired
+  private IvrHelper ivrHelper;
+
   @Override
   public Subject findSubjectBySubjectId(String subjectId) {
     return subjectDataService.findBySubjectId(subjectId);
@@ -43,6 +47,10 @@ public class SubjectServiceImpl implements SubjectService {
 
   @Override
   public Subject create(Subject subject) {
+    String ivrId = ivrHelper.createSubscriber(subject);
+
+    subject.setIvrId(ivrId);
+
     subjectDataService.create(subject);
     visitService.createVisitsForSubject(subject);
 
@@ -107,6 +115,8 @@ public class SubjectServiceImpl implements SubjectService {
           && PhoneValidator.isNotValid(newSubject.getPhoneNumber())) {
         tujiokoweEnrollmentService.unenrollAndRemoveEnrollment(subject);
       }
+
+      updateSubscriber(newSubject, oldSubject);
     }
   }
 
@@ -126,6 +136,14 @@ public class SubjectServiceImpl implements SubjectService {
           }
         }
       }
+    }
+  }
+
+  private void updateSubscriber(Subject newSubject, Subject oldSubject) {
+    if (!StringUtils.equals(oldSubject.getPhoneNumber(), newSubject.getPhoneNumber())
+        || !StringUtils.equals(oldSubject.getName(), newSubject.getName())) {
+      String ivrId = ivrHelper.updateSubscriber(newSubject);
+      newSubject.setIvrId(ivrId);
     }
   }
 }

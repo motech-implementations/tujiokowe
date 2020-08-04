@@ -113,6 +113,12 @@ public class Subject {
   @Setter
   private String name;
 
+  @NonEditable(display = false)
+  @Field
+  @Getter
+  @Setter
+  private String ivrId;
+
   @JsonIgnore
   @NonEditable
   @Field(displayName = "Enrollment Status")

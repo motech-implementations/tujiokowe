@@ -1,8 +1,5 @@
 package org.motechproject.tujiokowe.helper;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -42,23 +39,9 @@ public class IvrCallHelper {
     Subject subject = getSubject(externalId);
 
     if (config.getSendIvrCalls() != null && config.getSendIvrCalls()
-        && StringUtils.isNotBlank(config.getIvrLanguageId())
-        && StringUtils.isNotBlank(subject.getPhoneNumber())) {
+        && StringUtils.isNotBlank(subject.getIvrId())) {
 
       String votoMessageId = getVotoMessageId(messageKey, externalId);
-
-      JsonObject subscriberData = new JsonObject();
-      subscriberData.addProperty(TujiokoweConstants.PREFERRED_LANGUAGE, config.getIvrLanguageId());
-      subscriberData.addProperty(TujiokoweConstants.RECEIVE_VOICE, "1");
-      subscriberData.addProperty(TujiokoweConstants.RECEIVE_SMS, "1");
-
-      JsonObject subscriberProperties = new JsonObject();
-      subscriberProperties.addProperty(TujiokoweConstants.SUBJECT_ID, subject.getSubjectId());
-
-      subscriberData.add(TujiokoweConstants.PROPERTY, subscriberProperties);
-
-      Gson gson = new GsonBuilder().serializeNulls().create();
-      String subscriber = gson.toJson(subscriberData);
 
       Map<String, String> callParams = new HashMap<>();
       if (StringUtils.isNotBlank(config.getVoiceSenderId())) {
@@ -69,17 +52,13 @@ public class IvrCallHelper {
       }
       callParams.put(TujiokoweConstants.API_KEY, config.getApiKey());
       callParams.put(TujiokoweConstants.MESSAGE_ID, votoMessageId);
-      callParams.put(TujiokoweConstants.SEND_TO_PHONES, subject.getPhoneNumber());
+      callParams.put(TujiokoweConstants.SEND_TO_SUBSCRIBERS, subject.getIvrId());
       callParams.put(TujiokoweConstants.WEBHOOK_URL, config.getStatusCallbackUrl());
-      callParams.put(TujiokoweConstants.SUBSCRIBER_DATA, subscriber);
-      callParams.put(
-          TujiokoweConstants.SEND_SMS_IF_VOICE_FAILS, config.getSendSmsIfVoiceFails() ? "1" : "0");
-      callParams.put(
-          TujiokoweConstants.DETECT_VOICEMAIL, config.getDetectVoiceMail() ? "1" : "0");
+      callParams.put(TujiokoweConstants.SEND_SMS_IF_VOICE_FAILS, config.getSendSmsIfVoiceFails() ? "1" : "0");
+      callParams.put(TujiokoweConstants.DETECT_VOICEMAIL, config.getDetectVoiceMail() ? "1" : "0");
       callParams.put(TujiokoweConstants.RETRY_ATTEMPTS_SHORT, config.getRetryAttempts().toString());
       callParams.put(TujiokoweConstants.RETRY_DELAY_SHORT, config.getRetryDelay().toString());
-      callParams.put(TujiokoweConstants.RETRY_ATTEMPTS_LONG,
-          TujiokoweConstants.RETRY_ATTEMPTS_LONG_DEFAULT);
+      callParams.put(TujiokoweConstants.RETRY_ATTEMPTS_LONG, TujiokoweConstants.RETRY_ATTEMPTS_LONG_DEFAULT);
       callParams.put(TujiokoweConstants.SUBJECT_ID, externalId);
       callParams.put(TujiokoweConstants.SUBJECT_PHONE_NUMBER, subject.getPhoneNumber());
 
