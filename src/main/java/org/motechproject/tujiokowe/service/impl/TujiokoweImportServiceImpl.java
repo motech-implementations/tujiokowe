@@ -102,7 +102,7 @@ public class TujiokoweImportServiceImpl implements TujiokoweImportService {
           LOGGER.error("Could not parse date: " + e.getMessage(), e);
         } catch (FtpException e) {
           LOGGER.error("Could not fetch file " + filename + ": " + e.getMessage(), e);
-        } catch (CsvImportException e) {
+        } catch (Exception e) {
           LOGGER.error("Could not import CSV " + filename + ": " + e.getMessage(), e);
         }
       }
