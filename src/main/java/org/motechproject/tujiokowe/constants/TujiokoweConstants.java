@@ -210,7 +210,8 @@ public final class TujiokoweConstants {
   public static final List<String> AVAILABLE_LOOKUPS_FOR_SUBJECTS =
       new ArrayList<>(Arrays.asList("Find By Actual Prime Date Range",
           "Find By Actual Booster Date Range", "Find By Participant Id", "Find By Site Id",
-          "Find By exact Phone Number", "Find By Visit Type And Actual Date Range"));
+          "Find By exact Phone Number", "Find By Visit Type And Actual Date Range",
+          "Find By New Booster Planned Date", "Find By New Booster Planned Date and Slot"));
 
   private TujiokoweConstants() {
   }
