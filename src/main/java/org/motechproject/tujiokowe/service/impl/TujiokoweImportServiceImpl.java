@@ -3,6 +3,7 @@ package org.motechproject.tujiokowe.service.impl;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -76,6 +77,7 @@ public class TujiokoweImportServiceImpl implements TujiokoweImportService {
     List<String> filenames;
     try {
       filenames = ftpsClient.listFiles(directory);
+      Collections.sort(filenames);
     } catch (FtpException e) {
       LOGGER.error("Could not list files: " + e.getMessage(), e);
       return;
