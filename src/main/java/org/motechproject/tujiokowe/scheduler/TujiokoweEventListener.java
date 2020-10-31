@@ -7,6 +7,7 @@ import org.motechproject.tujiokowe.constants.TujiokoweConstants;
 import org.motechproject.tujiokowe.exception.TujiokoweInitiateCallException;
 import org.motechproject.tujiokowe.helper.IvrCallHelper;
 import org.motechproject.tujiokowe.service.ExportService;
+import org.motechproject.tujiokowe.service.JasperReportsService;
 import org.motechproject.tujiokowe.service.ReportService;
 import org.motechproject.tujiokowe.service.TujiokoweEnrollmentService;
 import org.motechproject.tujiokowe.service.TujiokoweImportService;
@@ -34,6 +35,9 @@ public class TujiokoweEventListener {
 
   @Autowired
   private ExportService exportService;
+
+  @Autowired
+  private JasperReportsService jasperReportsService;
 
   @MotechListener(subjects = { TujiokoweConstants.FETCH_CSV_EVENT })
   public void fetchCsv(MotechEvent event) {
@@ -75,5 +79,12 @@ public class TujiokoweEventListener {
   @MotechListener(subjects = { TujiokoweConstants.CLEAR_EXPORT_TASKS_EVENT })
   public void clearExportTasks(MotechEvent event) {
     exportService.cancelAllExportTasks();
+  }
+
+  @MotechListener(subjects = { TujiokoweConstants.SEND_EMAIL_REPORT_EVENT })
+  public void sendEmailReport(MotechEvent event) {
+    LOGGER.info("Sending email report...");
+    jasperReportsService.sendVaccinationSummaryReport();
+    LOGGER.info("Email report sent");
   }
 }

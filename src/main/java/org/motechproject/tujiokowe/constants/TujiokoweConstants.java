@@ -39,6 +39,8 @@ public final class TujiokoweConstants {
   public static final String DAILY_REPORT_EVENT_START_DATE = "daily_report_event_start_date";
   public static final String DAILY_REPORT_EVENT_START_HOUR = "00:01";
 
+  public static final String SEND_EMAIL_REPORT_EVENT = "send_email_report_event";
+
   public static final String FETCH_CSV_EVENT = "fetch_csv_event";
   public static final String FETCH_CSV_EVENT_START_HOUR = "00:01";
   public static final String FTP_FILE_SEPARATOR = "/";
