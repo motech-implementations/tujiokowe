@@ -876,4 +876,64 @@
         };
     });
 
+    /*
+     *
+     * Email Reports
+     *
+     */
+    controllers.controller('TujiokoweEmailReportsCtrl', function ($scope, $http, $timeout) {
+
+        $scope.schedulePeriods = ['DAILY', 'WEEKLY', 'MONTHLY'];
+
+        $scope.selectPeriod = function(config, value) {
+            config.emailSchedulePeriod = $scope.schedulePeriods[value];
+        };
+
+        $scope.saveReport = function () {
+            $http.get("../tujiokowe/fetchVaccinationSummaryReport", { responseType: 'blob' })
+              .success(function (data) {
+                  $scope.saveFile([data], 'VaccinationSummaryReport', 'pdf');
+              })
+              .error(function (response) {
+                  handleResponse('mds.error', 'mds.error.exportData', response);
+              });
+        };
+
+        $scope.errors = [];
+        $scope.messages = [];
+
+        $http.get('../tujiokowe/emailReportConfig')
+          .success(function(response){
+              $scope.config = response;
+              $scope.originalConfig = angular.copy($scope.config);
+          })
+          .error(function(response) {
+              $scope.errors.push($scope.msg('tujiokowe.error.header', response));
+          });
+
+        $scope.reset = function () {
+            $scope.config = angular.copy($scope.originalConfig);
+        };
+
+        function hideMsgLater(index) {
+            return $timeout(function() {
+                $scope.messages.splice(index, 1);
+            }, 5000);
+        }
+
+        $scope.submit = function () {
+            $http.post('../tujiokowe/emailReportConfig', $scope.config)
+              .success(function (response) {
+                  $scope.config = response;
+                  $scope.originalConfig = angular.copy($scope.config);
+                  var index = $scope.messages.push($scope.msg('tujiokowe.settings.saved'));
+                  hideMsgLater(index-1);
+              })
+              .error (function (response) {
+                  //todo: better than that!
+                  handleWithStackTrace('tujiokowe.error.header', 'tujiokowe.error.body', response);
+              });
+        };
+    });
+
 }());

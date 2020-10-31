@@ -64,4 +64,20 @@ public class TujiokoweScheduler {
     RepeatingPeriodSchedulableJob job = new RepeatingPeriodSchedulableJob(event, startDate.toDate(), null, period, true);
     motechSchedulerService.safeScheduleRepeatingPeriodJob(job);
   }
+
+  public void scheduleEmailReportJob(DateTime startDate, Period period) {
+    MotechEvent event = new MotechEvent(TujiokoweConstants.SEND_EMAIL_REPORT_EVENT);
+
+    RepeatingPeriodSchedulableJob job = new RepeatingPeriodSchedulableJob(event, startDate.toDate(), null, period, true);
+    motechSchedulerService.safeScheduleRepeatingPeriodJob(job);
+  }
+
+  public void unscheduleEmailReportJob() {
+    motechSchedulerService.safeUnscheduleAllJobs(TujiokoweConstants.SEND_EMAIL_REPORT_EVENT);
+  }
+
+  public void rescheduleEmailReportJob(DateTime startDate, Period period) {
+    unscheduleEmailReportJob();
+    scheduleEmailReportJob(startDate, period);
+  }
 }
